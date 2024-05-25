@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import enemigos.RocketRobot;
 import mainPakage.Bullet;
 import mainPakage.Camera;
+import mainPakage.MainLoop;
 import mainPakage.Player;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import enemigos.Beecopter;
 import enemigos.Enemy;
 
-public class IntroStage {
+public class IntroStage extends MWindow {
 	
 	List<Rectangle> colitions = new ArrayList();
 	List<Bullet> enemyBullets = new ArrayList();
@@ -38,14 +39,16 @@ public class IntroStage {
 	private Player jugador1;
     private Camera mainCamera;
 
-	public IntroStage()
+	public IntroStage(MainLoop ciclo)
 	{
+		super(ciclo);
 		mainCamera = new Camera();
 		
 		this.addBackground();
 		this.addPlayer();
 		this.addColitions();
 		this.addEnemy();
+		windowCode = 1;
 	}
 	
 	
@@ -242,7 +245,7 @@ public class IntroStage {
 	public void updateEnemy()
 	{
 		for (Enemy enemy : enemigos) {
-			if(enemy.getPosX()< jugador1.getPosX()+600)
+			if(enemy.getPosX()< jugador1.getPosX()+800)
 			{
 				enemy.update();
 			}
@@ -265,6 +268,7 @@ public class IntroStage {
 			enemy.draw(batch);
 		}
 	}
+
 
 
 }

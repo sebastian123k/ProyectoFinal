@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 import windows.IntroStage;
+import windows.MWindow;
+import windows.MainTitle;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -18,13 +20,15 @@ public class MainLoop extends ApplicationAdapter {
 	
     private SpriteBatch batch;
     private ShapeRenderer s1;
-    private IntroStage introStage;
+    private MWindow ventana;
+    private int currentWindow;
     
     @Override
     public void create() {
         batch = new SpriteBatch();
         s1 = new ShapeRenderer();
-        introStage = new IntroStage();    
+        ventana = new MainTitle(this); 
+        currentWindow = 0;
     }
 
     @Override
@@ -42,12 +46,34 @@ public class MainLoop extends ApplicationAdapter {
     
     public void ubdate()
     {
-    	introStage.update();
+    	if(ventana.getWindowCode() != currentWindow)
+    	{
+    		changeWindow();
+    	}
+    	ventana.update();
     }
     
     public void paint()
     {
-    	introStage.draw(batch,s1);
+    	ventana.draw(batch,s1);
+    }
+    
+    private void changeWindow()
+    {
+    	switch(currentWindow)
+    	{
+    	case 0:
+    		ventana = new MainTitle(this);
+    		break;
+    	case 1:
+    		ventana = new IntroStage(this);
+    		break;
+    	}
+    }
+    
+    public void setWindow(int window)
+    {
+    	currentWindow = window;
     }
 
     @Override

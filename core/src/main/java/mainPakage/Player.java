@@ -302,7 +302,24 @@ public class Player {
 		 if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isShoting && !hurts)
 		 {
 			 isShoting = true;
-			 bullets.add(new Bullet(posX,posY-10,direction,10,2,8,spriteBullets,0,0,0,colitions));
+			 if(touchWall())
+			 {
+				 if(direction == 1)
+				 {
+					 bullets.add(new Bullet(posX-20,posY-10,0,10,2,8,spriteBullets,0,0,0,colitions));
+				 }
+				 else 
+				 {
+					 bullets.add(new Bullet(posX+20,posY-10,1,10,2,8,spriteBullets,0,0,0,colitions));
+				 }
+				 
+			 }
+			 else
+			 {
+				 bullets.add(new Bullet(posX,posY-10,direction,10,2,8,spriteBullets,0,0,0,colitions));
+			 }
+			 
+			 
 		 }
 		 
 		 if(isShoting)
