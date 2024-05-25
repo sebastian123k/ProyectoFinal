@@ -47,7 +47,6 @@ public class MainLoop extends ApplicationAdapter {
     
     public void paint()
     {
-    	
     	introStage.draw(batch,s1);
     }
 

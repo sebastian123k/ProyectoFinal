@@ -183,6 +183,7 @@ public class Bullet {
 	}
 
 	public Rectangle getHitbox() {
+		hitbox.setPosition(posX+size*2,posY+size*2);
 		return hitbox;
 	}
 

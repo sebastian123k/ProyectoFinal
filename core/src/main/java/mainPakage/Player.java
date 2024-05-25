@@ -1,6 +1,5 @@
 package mainPakage;
 
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,7 +12,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch; // Agrega esta línea para SpriteBatch
+import com.badlogic.gdx.graphics.g2d.SpriteBatch; 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import enemigos.Enemy;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont; 
 import com.badlogic.gdx.graphics.Texture; 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,7 +35,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 
 public class Player {
 	
@@ -52,7 +49,7 @@ public class Player {
 	int jumpsIndex;
 	boolean isJumping;
 	boolean isShoting;
-	boolean isCrying;
+	boolean hurts;
 	int direction;
 
 	Texture texturaMegaman;
@@ -67,7 +64,7 @@ public class Player {
     
     float tiempoTranscurrido;
     float tiempoTranscurridoAnimacion;
-    float tiempoTranscurridoChillando;
+    float tiempoTranscurridoHurt;
     int animationIndex;
     int	animationInicialRange;
     int animationFinalRange;
@@ -94,16 +91,16 @@ public class Player {
     	jumpsIndex = 0;
     	isJumping = false;
     	isShoting = false;
-    	isCrying = false;
+    	hurts = false;
     	life = 20;
     	direction = 1;
     	speed = 4;
     	shootDelay = 0;
     	
-    	texturaMegaman = new Texture("playerSpritesheet.png");
-    	spriteMegaman = new Sprite[27];
-    	texturaShotingMegaman = new Texture("playerShootingSpritesheet.png");
-    	spriteShotingMegaman = new Sprite[27];
+    	texturaMegaman = new Texture("player/playerSpritesheet.png");
+    	spriteMegaman = new Sprite[33];
+    	texturaShotingMegaman = new Texture("player/playerShootingSpritesheet.png");
+    	spriteShotingMegaman = new Sprite[33];
     	texturaBullets = new Texture("proyectil.png"); 
     	spriteBullets = new Sprite[30];
     	animationInicialRange = 0;
@@ -119,18 +116,30 @@ public class Player {
     
     public void hurts(Bullet bullet)
     {
-    	if(hitbox.contains(bullet.getHitbox()))
-    	{
-    		isCrying = true;
-    	}
+    	life-=bullet.getPower();
+    	hurts = true;
+    	System.out.println("mi vida es " + life);
+    	
     }
     
-    public void hurts(Enemy enemigo)
+    public void hurts(List<Enemy> enemigos)
     {
-    	if(hitbox.contains(enemigo.getHitbox()))
-    	{
-    		isCrying = true;
-    	}
+    	lateralHitbox.setPosition(posX+10, posY-15);
+    	for (Enemy enemy : enemigos) {
+    		if(lateralHitbox.overlaps(enemy.getHitbox()))
+        	{
+        		hurts = true;
+        		System.out.println("me duele");
+        		if(direction==1)
+				{
+					 posX-=speed*2;
+				}
+        		else
+        		{
+        			 posX+=speed*2; 
+        		}
+        	}
+		}
     }
    
     public void createSprites()
@@ -139,11 +148,11 @@ public class Player {
         int spriteHeight = 40;
         int spriteWeight = 52;
        	
-       	for(int y = 0,i = 0; y<texturaMegaman.getWidth();y+=spriteWeight)
+       	for(int y = 0,i = 0; y<156;y+=spriteWeight)
        	{
-       		for(int x = 0; x<texturaMegaman.getHeight();x+=spriteHeight)
+       		for(int x = 0; x<440;x+=spriteHeight)
            	{
-       			if(i<27)
+       			if(i<33)
        			{
        				megamanFrames= new TextureRegion(texturaMegaman,x,y,spriteHeight,spriteWeight);	
            			spriteMegaman[i] = new Sprite(megamanFrames);
@@ -209,7 +218,7 @@ public class Player {
     	
 		if(isOnFloor())
 		{
-			if(!isJumping && Gdx.input.isKeyJustPressed(Input.Keys.W))
+			if(!isJumping && Gdx.input.isKeyJustPressed(Input.Keys.W)&& !hurts)
 			{
 				setAction("saltar");	
 			}
@@ -218,7 +227,7 @@ public class Player {
 		else
 		{
 		
-			if(touchWall())
+			if(touchWall() && !hurts)
 			{
 				posY-=gravity/2;
 				if(Gdx.input.isKeyJustPressed(Input.Keys.W))
@@ -249,7 +258,7 @@ public class Player {
 		}
 		
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A))
+		if(Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A)&& !hurts)
 		{
 			 posX+=speed;
 			 setAction("caminar");
@@ -258,13 +267,13 @@ public class Player {
 				 direction = 1;
 				 posX+=speed;
 			 }
-			 if(isOnWall())
+			 if(isOnWall() || isHurts())
 			 {
 				 posX-=speed; 
 			 }
 			 
 		 }
-		 if (Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D))
+		 if (Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D)&& !hurts)
 		 {
 			 posX-=speed;
 			 setAction("caminar");
@@ -290,7 +299,7 @@ public class Player {
 			    setAction("nadota"); 
 		 }
 		 
-		 if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isShoting)
+		 if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isShoting && !hurts)
 		 {
 			 isShoting = true;
 			 bullets.add(new Bullet(posX,posY-10,direction,10,2,8,spriteBullets,0,0,0,colitions));
@@ -304,6 +313,19 @@ public class Player {
 			 {
 				 isShoting = false;
 				 shootDelay = 0;
+			 }
+		 }
+		 
+		 
+		 if(hurts)
+		 {
+			 tiempoTranscurridoHurt += Gdx.graphics.getDeltaTime();
+			 
+			 if(tiempoTranscurridoHurt>0.5)
+			 {
+				 hurts=false;
+				 tiempoTranscurridoHurt = 0;
+				 System.out.println("mi vida es " + life);
 			 }
 		 }
 
@@ -421,7 +443,6 @@ public class Player {
     	return false;
     }
     
-    
     public void setAction(String action)
     {
     	switch(action)
@@ -456,30 +477,36 @@ public class Player {
     	if(direction == 1)
     	{
     		spriteMegaman[animationIndex].setScale(2.0f,2.0f);
-    		spriteMegaman[20].setPosition(posX, posY);
-    		spriteMegaman[20].setScale(2.0f,2.0f);
+    		spriteMegaman[21].setPosition(posX, posY);
+    		spriteMegaman[21].setScale(2.0f,2.0f);
     		
     		spriteShotingMegaman[animationIndex].setScale(2.0f,2.0f);
-    		spriteShotingMegaman[20].setPosition(posX, posY);
-    		spriteShotingMegaman[20].setScale(2.0f,2.0f);
+    		spriteShotingMegaman[22].setPosition(posX, posY);
+    		spriteShotingMegaman[22].setScale(2.0f,2.0f);
+    		
+    		spriteMegaman[23].setPosition(posX, posY);
+    		spriteMegaman[23].setScale(2.0f,2.0f);
     	}
     	else
     	{
     		spriteMegaman[animationIndex].setScale(-2.0f,2.0f);
-    		spriteMegaman[20].setPosition(posX, posY);
-    		spriteMegaman[20].setScale(-2.0f,2.0f);
+    		spriteMegaman[21].setPosition(posX, posY);
+    		spriteMegaman[21].setScale(-2.0f,2.0f);
     		
     		spriteShotingMegaman[animationIndex].setScale(-2.0f,2.0f);
-    		spriteShotingMegaman[20].setPosition(posX, posY);
-    		spriteShotingMegaman[20].setScale(-2.0f,2.0f);
+    		spriteShotingMegaman[22].setPosition(posX, posY);
+    		spriteShotingMegaman[22].setScale(-2.0f,2.0f);
+    		
+    		spriteMegaman[23].setPosition(posX, posY);
+    		spriteMegaman[23].setScale(-2.0f,2.0f);
     	}
     	
     	spriteMegaman[animationIndex].setPosition(posX, posY);
     	spriteShotingMegaman[animationIndex].setPosition(posX, posY);
     	
-    	if(isCrying)
+    	if(hurts)
     	{
-    		return spriteShotingMegaman[20];
+    		return spriteMegaman[23];
     	}
     	
     	if(isShoting)
@@ -488,7 +515,7 @@ public class Player {
     		
     		if(!isOnFloor() && touchWall() && !isJumping)
         	{	
-        		return spriteShotingMegaman[20];
+        		return spriteShotingMegaman[22];
         	}
     		else
     		{
@@ -498,9 +525,9 @@ public class Player {
     	}
     	else
     	{
-    		if(!isOnFloor() && touchWall() && !isJumping && !isCrying )
+    		if(!isOnFloor() && touchWall() && !isJumping && !hurts )
         	{	
-        		return spriteMegaman[20];
+        		return spriteMegaman[21];
         	}
     	}
     	
@@ -570,6 +597,16 @@ public class Player {
 
 	public void setEnemigos(List<Enemy> enemigos) {
 		this.enemigos = enemigos;
+	}
+
+
+	public boolean isHurts() {
+		return hurts;
+	}
+
+
+	public void setHurts(boolean hurts) {
+		this.hurts = hurts;
 	} 
      
 }

@@ -15,9 +15,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.particles.values.MeshSpawnShapeValue.Triangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import enemigos.Beecopter;
 import enemigos.Enemy;
 
-public class IntroStage extends Window {
+public class IntroStage {
 	
 	List<Rectangle> colitions = new ArrayList();
 	List<Bullet> enemyBullets = new ArrayList();
@@ -50,13 +53,25 @@ public class IntroStage extends Window {
 	{
 		updateBackground();
 		updateEnemy();
+		updatePlayer();
 		updateEnemyBullets();
 		updateBullets();
-		jugador1.update();
-    	mainCamera.setPosition(jugador1.getPosX(),jugador1.getPosY()+50);
+		updateCamera();
+    	
+	}
+	
+	public void updateCamera()
+	{
+		mainCamera.setPosition(jugador1.getPosX(),jugador1.getPosY()+60);
     	mainCamera.update();
 	}
 	
+	public void updatePlayer()
+	{
+
+ 		jugador1.hurts(enemigos);
+ 		jugador1.update();
+	}
 	
 	public void draw(SpriteBatch batch,ShapeRenderer s1)
 	{
@@ -128,6 +143,7 @@ public class IntroStage extends Window {
 	{
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
 		enemigos.add(new RocketRobot(10,1500,300,enemyBullets));
+		enemigos.add(new Beecopter(22,2500,380,mainCamera,jugador1));
 	}
 	
 	public void drawHitbox(ShapeRenderer s1)
@@ -156,12 +172,12 @@ public class IntroStage extends Window {
 	
 	public void updateBackground()
 	{
-		if(Gdx.input.isKeyPressed(Input.Keys.D) && !jugador1.isOnWall() && !jugador1.touchWall())
+		if(Gdx.input.isKeyPressed(Input.Keys.D) && !jugador1.isOnWall() && !jugador1.touchWall() && !jugador1.isHurts() && !mainCamera.isLocked())
 		{
 			bgposX++;
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.A) && !jugador1.isOnWall() && !jugador1.touchWall())
+		if(Gdx.input.isKeyPressed(Input.Keys.A) && !jugador1.isOnWall() && !jugador1.touchWall() && !jugador1.isHurts() && !mainCamera.isLocked())
 		{
 			bgposX--;
 		}
@@ -177,6 +193,7 @@ public class IntroStage extends Window {
 		for (Bullet bullet : enemyBullets) {
 			if(bullet.intersects(jugador1))
 			{
+				jugador1.hurts(bullet);
 				bulletsControler.add(bullet);
 			}
 		}
@@ -225,7 +242,7 @@ public class IntroStage extends Window {
 	public void updateEnemy()
 	{
 		for (Enemy enemy : enemigos) {
-			if(enemy.getPosX()< jugador1.getPosX()+400)
+			if(enemy.getPosX()< jugador1.getPosX()+600)
 			{
 				enemy.update();
 			}
