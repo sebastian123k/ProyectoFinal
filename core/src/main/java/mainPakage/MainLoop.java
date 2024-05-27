@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+import windows.GameOverScreen;
 import windows.IntroStage;
 import windows.MWindow;
 import windows.MainTitle;
+import windows.ScoreScreen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -67,6 +69,12 @@ public class MainLoop extends ApplicationAdapter {
     		break;
     	case 1:
     		ventana = new IntroStage(this);
+    		break;
+    	case 2:
+    		ventana = new GameOverScreen(this);
+    		break;
+    	case 3:
+    		ventana = new ScoreScreen(this);
     		break;
     	}
     }

@@ -77,6 +77,7 @@ public class IntroStage extends MWindow {
 		{
 			mainCamera.setPosX(jugador1.getPosX());
 		}
+
 		
     	mainCamera.update();
 	}
@@ -86,6 +87,22 @@ public class IntroStage extends MWindow {
 
  		jugador1.hurts(enemigos);
  		jugador1.update();
+ 		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
+ 		
+ 		if(jugador1.getPosY()<-300)
+ 		{
+ 			jugador1.setPosX(400);
+ 			jugador1.setPosY(300);
+ 			mainCamera.setPosX(jugador1.getPosX());
+			mainCamera.setPosY(jugador1.getPosY()+15);
+			addBackground();
+			jugador1.setLife(jugador1.getLife()-2);
+ 		}
+ 		
+ 		if(jugador1.getLife() <= 0)
+ 		{
+ 			cicloPrincipal.setWindow(2);
+ 		}
 	}
 	
 	public void draw(SpriteBatch batch,ShapeRenderer s1)
@@ -153,7 +170,8 @@ public class IntroStage extends MWindow {
 		colitions.add(new Rectangle(9570,200,170,100));
 		colitions.add(new Rectangle(9850,135,720,100));
 		colitions.add(new Rectangle(10660,200,580,100));
-		colitions.add(new Rectangle(11390,135,880,100));
+		colitions.add(new Rectangle(11390,135,900,100));
+		colitions.add(new Rectangle(12440,35,2800,100));
 		
 	}
 	
@@ -173,7 +191,7 @@ public class IntroStage extends MWindow {
 	{
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
 		enemigos.add(new RocketRobot(10,1500,300,enemyBullets));
-		enemigos.add(new Beecopter(22,2500,380,mainCamera,jugador1));
+		//enemigos.add(new Beecopter(22,2500,380,mainCamera,jugador1));
 	}
 	
 	public void drawHitbox(ShapeRenderer s1)

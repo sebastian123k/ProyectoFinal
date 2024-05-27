@@ -123,7 +123,6 @@ public class Player {
     {
     	life-=bullet.getPower();
     	hurts = true;
-    	System.out.println("mi vida es " + life);
     	
     }
     
@@ -134,7 +133,7 @@ public class Player {
     		if(lateralHitbox.overlaps(enemy.getHitbox()))
         	{
         		hurts = true;
-        		System.out.println("me duele");
+        		life-=enemy.getPower();
         		if(direction==1)
 				{
 					 posX-=speed*2;

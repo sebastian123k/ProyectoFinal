@@ -17,6 +17,7 @@ public abstract class Enemy {
 	protected Rectangle hitbox;
 	protected Texture textura;
 	protected Sprite[] sprite;
+	protected int power;
 	
 	public Enemy(int life, float posx, float posy) {
 		this.life = life;
@@ -24,6 +25,7 @@ public abstract class Enemy {
 		this.posY = posy;
 		
 		sprite = new Sprite[16];
+		power = 2;
 	}
 	
 	public abstract void draw(SpriteBatch batch);
@@ -112,6 +114,15 @@ public abstract class Enemy {
 
 	public Sprite getSpriteIndex(int index) {
 		return sprite[index];
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
 	}	
+	
 
 }
