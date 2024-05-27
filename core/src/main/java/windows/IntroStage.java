@@ -5,7 +5,8 @@ import enemigos.RocketRobot;
 import mainPakage.Bullet;
 import mainPakage.Camera;
 import mainPakage.MainLoop;
-import mainPakage.Player;
+import player.LifeBar;
+import player.Player;
 
 import java.util.List;
 import com.badlogic.gdx.Gdx;
@@ -35,6 +36,7 @@ public class IntroStage extends MWindow {
 	Sprite backGroundSprite;
 	int bgposX, bgposY;
 	Sprite levelSprite;
+	LifeBar lifeBar = new LifeBar();
 	
 	private Player jugador1;
     private Camera mainCamera;
@@ -54,18 +56,28 @@ public class IntroStage extends MWindow {
 	
 	public void update()
 	{
+		updatelifeBar();
 		updateBackground();
 		updateEnemy();
 		updatePlayer();
 		updateEnemyBullets();
 		updateBullets();
 		updateCamera();
+		
     	
 	}
 	
 	public void updateCamera()
 	{
-		mainCamera.setPosition(jugador1.getPosX(),jugador1.getPosY()+60);
+		if(jugador1.getPosY() < 270)
+		{
+			mainCamera.setPosY(jugador1.getPosY()+15);
+		}
+		if(jugador1.getPosX() >400)
+		{
+			mainCamera.setPosX(jugador1.getPosX());
+		}
+		
     	mainCamera.update();
 	}
 	
@@ -82,12 +94,24 @@ public class IntroStage extends MWindow {
 		batch.begin();
 		backGroundSprite.draw(batch);
 		levelSprite.draw(batch);
-		jugador1.getSprite().draw(batch);
 		batch.end();
+		jugador1.draw(batch);
 		drawEnemy(batch);
 		drawBullets(batch);
+		drawLifeBar(batch);
 		drawHitbox(s1);
 		
+	}
+	
+	public void updatelifeBar()
+	{
+		lifeBar.setLife(jugador1.getLife());
+		lifeBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()+100);
+	}
+	
+	public void drawLifeBar(SpriteBatch batch)
+	{
+		lifeBar.draw(batch);
 	}
 	
 	public void addBackground()
@@ -109,6 +133,7 @@ public class IntroStage extends MWindow {
 	{
 		colitions.add(new Rectangle(-30,200,100,800));
 		colitions.add(new Rectangle(0,170,1570,100));
+		colitions.add(new Rectangle(0,600,1570,100));
 		colitions.add(new Rectangle(1630,235,970,100));
 		colitions.add(new Rectangle(2660,205,1980,100));
 		colitions.add(new Rectangle(4740,205,1020,100));
@@ -136,10 +161,12 @@ public class IntroStage extends MWindow {
 	{
 		jugador1 = new Player();
 		jugador1.setPosX(400);
-		jugador1.setPosY(500);
+		jugador1.setPosY(300);
 		jugador1.setColitions(colitions);
 		jugador1.setBullets(bullets);
 		jugador1.setEnemigos(enemigos);
+		mainCamera.setPosY(jugador1.getPosY()+15);
+		mainCamera.setPosX(jugador1.getPosX());
 	}
 	
 	public void addEnemy()
@@ -170,17 +197,18 @@ public class IntroStage extends MWindow {
         s1.rect(jugador1.getHitbox().getX(),jugador1.getHitbox().getY(),jugador1.getHitbox().width,jugador1.getHitbox().height);
         s1.rect(jugador1.getLargeHitbox().getX(),jugador1.getLargeHitbox().getY(),jugador1.getLargeHitbox().width,jugador1.getLargeHitbox().height);
         s1.rect(jugador1.getLateralHitbox().getX(),jugador1.getLateralHitbox().getY(),jugador1.getLateralHitbox().width,jugador1.getLateralHitbox().height);
+        s1.rect(jugador1.getUpHitbox().getX(),jugador1.getUpHitbox().getY(),jugador1.getUpHitbox().width,jugador1.getUpHitbox().height);
         s1.end();
 	}
 	
 	public void updateBackground()
 	{
-		if(Gdx.input.isKeyPressed(Input.Keys.D) && !jugador1.isOnWall() && !jugador1.touchWall() && !jugador1.isHurts() && !mainCamera.isLocked())
+		if(Gdx.input.isKeyPressed(Input.Keys.D) && !jugador1.isOnWall() && !jugador1.touchWall() && !jugador1.isHurts() && !mainCamera.isLocked() && jugador1.getPosX() >400)
 		{
 			bgposX++;
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.A) && !jugador1.isOnWall() && !jugador1.touchWall() && !jugador1.isHurts() && !mainCamera.isLocked())
+		if(Gdx.input.isKeyPressed(Input.Keys.A) && !jugador1.isOnWall() && !jugador1.touchWall() && !jugador1.isHurts() && !mainCamera.isLocked() && jugador1.getPosX() >400)
 		{
 			bgposX--;
 		}

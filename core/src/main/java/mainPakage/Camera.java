@@ -55,8 +55,12 @@ public class Camera extends OrthographicCamera {
 	}
 
 	public void setPosition(float posX ,float posY) {
-		this.posX = posX;
-		this.posY = posY;
+		if(!isLocked)
+		{
+
+			this.posX = posX;
+			this.posY = posY;
+		}
 	}
 
 	public float getPosX() {
@@ -64,7 +68,10 @@ public class Camera extends OrthographicCamera {
 	}
 
 	public void setPosX(float posX) {
-		this.posX = posX;
+		if(!isLocked)
+		{
+			this.posX = posX;
+		}
 	}
 
 	public float getPosY() {
@@ -72,7 +79,10 @@ public class Camera extends OrthographicCamera {
 	}
 
 	public void setPosY(float posY) {
-		this.posY = posY;
+		if(!isLocked)
+		{
+			this.posY = posY;
+		}
 	}
 	
 

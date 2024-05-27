@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 import enemigos.Enemy;
+import player.Player;
 
 public class Bullet {
 	

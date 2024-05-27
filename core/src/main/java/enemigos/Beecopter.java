@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 import mainPakage.Camera;
-import mainPakage.Player;
+import player.Player;
 
 public class Beecopter extends Enemy {
 	
@@ -15,7 +15,6 @@ public class Beecopter extends Enemy {
 	private int animationIndex;
 	private int	animationInicialRange;
 	private int animationFinalRange;
-	private boolean animationReset;
 	private Camera camara;
 	private Player player;
 	private boolean isDestroyed;
@@ -74,7 +73,7 @@ public class Beecopter extends Enemy {
     	}
     	
     	tiempoTranscurridoAnimacion += Gdx.graphics.getDeltaTime();
-    	if(tiempoTranscurridoAnimacion > 0.08)
+    	if(tiempoTranscurridoAnimacion > 0.06)
     	{
     		updateAnimation();
         	tiempoTranscurridoAnimacion = 0;
