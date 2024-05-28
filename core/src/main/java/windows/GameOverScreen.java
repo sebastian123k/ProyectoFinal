@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import mainPakage.Camera;
 import mainPakage.MainLoop;
 
 public class GameOverScreen extends MWindow{
@@ -20,6 +21,7 @@ public class GameOverScreen extends MWindow{
 	Sprite spriteScore;
 	Sprite spriteStart;
 	
+	Camera camara = new Camera();
 	public GameOverScreen(MainLoop ciclo) {
 		super(ciclo);
 		
@@ -28,7 +30,7 @@ public class GameOverScreen extends MWindow{
 		megaman = new Texture("tittle/megaman1.png");
 		spriteTitle = new Sprite(title);
 		spriteTitle.setPosition(200, 300);
-		spriteTitle.setScale(3.0f,3.0f);
+		spriteTitle.setScale(2.0f,2.0f);
 		spriteTitleX = new Sprite(titleX);
 		spriteTitleX.setPosition(570, 50);
 		spriteTitleX.setScale(2.0f,2.0f);
@@ -51,14 +53,14 @@ public class GameOverScreen extends MWindow{
 		{
 			cicloPrincipal.setWindow(1);
 		}
-		if((Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) && spriteMegaman.getY()==150)
+		if((Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) && spriteMegaman.getY()==150)
 		{
 			spriteMegaman.setY(spriteMegaman.getY()- 100);
 			spriteScore.setTexture(new Texture("tittle/Score.png"));
 			spriteStart.setTexture(new Texture("tittle/blueGameStart.png"));
 
 		}
-		if((Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) && spriteMegaman.getY()==50)
+		if((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP)) && spriteMegaman.getY()==50)
 		{	
 			spriteMegaman.setY(spriteMegaman.getY()+ 100);
 			spriteScore.setTexture(new Texture("tittle/blueScore.png"));
@@ -67,6 +69,7 @@ public class GameOverScreen extends MWindow{
 	}
 	
 	public void draw(SpriteBatch batch, ShapeRenderer s1) {
+		
 		batch.begin();
 		spriteTitle.draw(batch);
 		spriteTitleX.draw(batch);
@@ -74,6 +77,7 @@ public class GameOverScreen extends MWindow{
 		spriteScore.draw(batch);
 		spriteStart.draw(batch);
 		batch.end();
+		camara.paint(batch);
 		
 	}
 }

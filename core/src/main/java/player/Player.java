@@ -11,6 +11,8 @@ import java.util.List;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch; 
 import com.badlogic.gdx.math.MathUtils;
@@ -76,6 +78,10 @@ public class Player {
     List<Bullet> bullets;
     List<Enemy> enemigos;
     
+    Sound sonidoSalto;
+    Sound sonidoHurt;
+    Sound sonidoShoot;
+    
     public Player()
     {
     	this.initDefault();
@@ -116,24 +122,41 @@ public class Player {
     	largeHitbox.setSize(48,30);
     	upHitbox = new Rectangle();
     	upHitbox.setSize(26,60);
+    	addSounds();
     	
     }
     
+    public void addSounds()
+	{
+		sonidoSalto = Gdx.audio.newSound(Gdx.files.internal("Player/soundJump.wav"));
+		sonidoSalto.setVolume(1, 0.5f);
+		sonidoShoot = Gdx.audio.newSound(Gdx.files.internal("Player/soundShoot.wav"));
+		sonidoShoot.setVolume(1, 0.5f);
+		sonidoHurt = Gdx.audio.newSound(Gdx.files.internal("Player/soundHurt.wav"));
+		sonidoHurt.setVolume(1, 0.5f);
+		
+		
+	}
+    
     public void hurts(Bullet bullet)
     {
-    	life-=bullet.getPower();
-    	hurts = true;
-    	
+    	if(!hurts)
+    	{
+    		life-=bullet.getPower();
+        	hurts = true;
+        	sonidoHurt.play();
+    	}
     }
     
     public void hurts(List<Enemy> enemigos)
     {
     	lateralHitbox.setPosition(posX+10, posY-15);
     	for (Enemy enemy : enemigos) {
-    		if(lateralHitbox.overlaps(enemy.getHitbox()))
+    		if(lateralHitbox.overlaps(enemy.getHitbox()) && !hurts)
         	{
         		hurts = true;
         		life-=enemy.getPower();
+        		sonidoHurt.play();
         		if(direction==1)
 				{
 					 posX-=speed*2;
@@ -318,6 +341,7 @@ public class Player {
 		 
 		 if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isShoting && !hurts)
 		 {
+			 sonidoShoot.play();
 			 isShoting = true;
 			 if(touchWall() && !isOnFloor())
 			 {
@@ -510,6 +534,7 @@ public class Player {
     		case "saltar":
     			isJumping = true;
     			jumpsIndex = 0;
+    			sonidoSalto.play();
     			break;
     		
     	}

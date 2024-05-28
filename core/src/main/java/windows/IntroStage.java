@@ -11,6 +11,7 @@ import player.Player;
 import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import enemigos.Beebot;
 import enemigos.Beecopter;
 import enemigos.Enemy;
 
@@ -29,6 +31,7 @@ public class IntroStage extends MWindow {
 	List<Bullet> bullets = new ArrayList();
 	List<Bullet> bulletsControler = new ArrayList();
 	List<Enemy> enemigos = new ArrayList();
+	List<Enemy> enemigosAux = new ArrayList();
 	List<Enemy> enemigosControler = new ArrayList();
 	
 	Texture backGround;
@@ -37,6 +40,7 @@ public class IntroStage extends MWindow {
 	int bgposX, bgposY;
 	Sprite levelSprite;
 	LifeBar lifeBar = new LifeBar();
+	Sound musicaFondo;
 	
 	private Player jugador1;
     private Camera mainCamera;
@@ -50,9 +54,16 @@ public class IntroStage extends MWindow {
 		this.addPlayer();
 		this.addColitions();
 		this.addEnemy();
+		this.addSounds();
 		windowCode = 1;
 	}
 	
+	public void addSounds()
+	{
+		musicaFondo = Gdx.audio.newSound(Gdx.files.internal("stage1assets/introStageMusic.mp3"));
+		musicaFondo.loop();
+		
+	}
 	
 	public void update()
 	{
@@ -102,6 +113,7 @@ public class IntroStage extends MWindow {
  		if(jugador1.getLife() <= 0)
  		{
  			cicloPrincipal.setWindow(2);
+ 			
  		}
 	}
 	
@@ -191,7 +203,10 @@ public class IntroStage extends MWindow {
 	{
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
 		enemigos.add(new RocketRobot(10,1500,300,enemyBullets));
-		//enemigos.add(new Beecopter(22,2500,380,mainCamera,jugador1));
+		enemigos.add(new Beecopter(22,3600,340,mainCamera,jugador1,enemigosAux));
+		enemigos.add(new Beebot(4,500,360));
+		enemigos.add(new Beebot(4,3700,380));
+		enemigos.add(new Beebot(4,3700,360));
 	}
 	
 	public void drawHitbox(ShapeRenderer s1)
@@ -304,6 +319,8 @@ public class IntroStage extends MWindow {
 				enemigosControler.add(enemy);
 			}	
 		}
+		enemigos.addAll(enemigosAux);
+		enemigosAux.removeAll(enemigosAux);
 		enemigos.removeAll(enemigosControler);
 		enemigosControler.removeAll(enemigosControler);
 	}

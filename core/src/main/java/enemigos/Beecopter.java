@@ -1,5 +1,7 @@
 package enemigos;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,10 +20,11 @@ public class Beecopter extends Enemy {
 	private Camera camara;
 	private Player player;
 	private boolean isDestroyed;
+	private List<Enemy> enemigos;
 
-	public Beecopter(int life, float posx, float posy,Camera camara,Player jugador) {
+	public Beecopter(int life, float posx, float posy,Camera camara,Player jugador,List<Enemy> enemigos) {
 		super(life, posx, posy);
-		
+		this.enemigos = enemigos;
 		this.camara = camara;
 		this.player = jugador;
 		
@@ -68,6 +71,10 @@ public class Beecopter extends Enemy {
     		}
     		else
     		{
+    			if((int)(Math.random() * 120) == 1)
+    			{
+    				enemigos.add(new Beebot(4,posX,posY+(int)(Math.random() * 200)));
+    			}
     			posX--;
     		}
     	}
