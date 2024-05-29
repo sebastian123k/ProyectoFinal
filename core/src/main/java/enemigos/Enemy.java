@@ -26,6 +26,7 @@ public abstract class Enemy {
 		
 		sprite = new Sprite[16];
 		power = 2;
+		
 	}
 	
 	public abstract void draw(SpriteBatch batch);

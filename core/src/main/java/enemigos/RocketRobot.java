@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,7 @@ public class RocketRobot extends Enemy {
 	List<Bullet> enemyBullets;
 	Texture texturaBullets;
 	Sprite[] spriteBullets;
+	 Sound sonidoShoot;
 	
 
 	public RocketRobot(int life, float posx, float posy,List<Bullet> enemyBullets) {
@@ -39,6 +41,8 @@ public class RocketRobot extends Enemy {
 		texturaBullets = new Texture("proyectil.png"); 
     	spriteBullets = new Sprite[30];
     	this.createBulletSprites(48, 48);
+    	sonidoShoot = Gdx.audio.newSound(Gdx.files.internal("enemigos/MissleFire.wav"));
+		sonidoShoot.setVolume(1, 0.5f);
 		
 	}
 	
@@ -125,6 +129,7 @@ public class RocketRobot extends Enemy {
 	public void shot()
 	{
 		enemyBullets.add(new Bullet(posX,posY-10,0,10,2,8,spriteBullets,0,0,0));
+		sonidoShoot.play();
 	}
 	
 	public void createBulletSprites(int spriteHeight, int spriteWeight)

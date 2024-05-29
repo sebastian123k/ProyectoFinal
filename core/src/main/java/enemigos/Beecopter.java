@@ -71,9 +71,9 @@ public class Beecopter extends Enemy {
     		}
     		else
     		{
-    			if((int)(Math.random() * 120) == 1)
+    			if((int)(Math.random() * 100) == 1)
     			{
-    				enemigos.add(new Beebot(4,posX,posY+(int)(Math.random() * 200)));
+    				enemigos.add(new Beebot(4,posX,posY+(int)(Math.random() * 150)));
     			}
     			posX--;
     		}

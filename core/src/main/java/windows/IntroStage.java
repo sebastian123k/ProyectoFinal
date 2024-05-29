@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import enemigos.RocketRobot;
 import mainPakage.Bullet;
 import mainPakage.Camera;
+import mainPakage.Effect;
+import mainPakage.MFont;
 import mainPakage.MainLoop;
 import player.LifeBar;
 import player.Player;
@@ -12,7 +14,9 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.particles.values.MeshSpawnShapeValue.Triangle;
@@ -24,6 +28,7 @@ import enemigos.Beebot;
 import enemigos.Beecopter;
 import enemigos.Enemy;
 import enemigos.HammerBot;
+import enemigos.MiniBot;
 
 public class IntroStage extends MWindow {
 	
@@ -34,6 +39,8 @@ public class IntroStage extends MWindow {
 	List<Enemy> enemigos = new ArrayList();
 	List<Enemy> enemigosAux = new ArrayList();
 	List<Enemy> enemigosControler = new ArrayList();
+	List<Effect> effects = new ArrayList();
+	List<Effect> effectsControler = new ArrayList();
 	
 	Texture backGround;
 	Texture levelTexture;
@@ -42,6 +49,8 @@ public class IntroStage extends MWindow {
 	Sprite levelSprite;
 	LifeBar lifeBar = new LifeBar();
 	Sound musicaFondo;
+	Sound enemigoMuerte;
+	MFont font;
 	
 	private Player jugador1;
     private Camera mainCamera;
@@ -50,6 +59,7 @@ public class IntroStage extends MWindow {
 	{
 		super(ciclo);
 		mainCamera = new Camera();
+		font = new MFont(10,10);
 		
 		this.addBackground();
 		this.addPlayer();
@@ -57,12 +67,14 @@ public class IntroStage extends MWindow {
 		this.addEnemy();
 		this.addSounds();
 		windowCode = 1;
+		
 	}
 	
 	public void addSounds()
 	{
 		musicaFondo = Gdx.audio.newSound(Gdx.files.internal("stage1assets/introStageMusic.mp3"));
 		musicaFondo.loop();
+		enemigoMuerte = Gdx.audio.newSound(Gdx.files.internal("enemigos/enemyDie.wav"));
 		
 	}
 	
@@ -74,9 +86,37 @@ public class IntroStage extends MWindow {
 		updatePlayer();
 		updateEnemyBullets();
 		updateBullets();
+		updateEffects();
 		updateCamera();
 		
     	
+	}
+	
+	public void updateEffects()
+	{
+		for (Effect effect: effects) {
+			
+			effect.update();
+		}
+		
+		for (Effect effect: effects) {
+			
+			if(effect.isFinish())
+			{
+				effectsControler.add(effect);
+			}
+			
+		}
+		
+		effects.removeAll(effectsControler);
+		effectsControler.removeAll(effectsControler);
+	}
+	public void drawEffects(SpriteBatch batch)
+	{
+		for (Effect effect: effects) {
+			
+			effect.draw(batch);
+		}
 	}
 	
 	public void updateCamera()
@@ -99,9 +139,9 @@ public class IntroStage extends MWindow {
 
  		jugador1.hurts(enemigos);
  		jugador1.update();
- 		//System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
+ 		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
  		
- 		if(jugador1.getPosY()<-300)
+ 		if(jugador1.getPosY()<-400)
  		{
  			jugador1.setPosX(400);
  			jugador1.setPosY(300);
@@ -109,10 +149,12 @@ public class IntroStage extends MWindow {
 			mainCamera.setPosY(jugador1.getPosY()+15);
 			addBackground();
 			jugador1.setLife(jugador1.getLife()-2);
+			mainCamera.unlock();
  		}
  		
  		if(jugador1.getLife() <= 0)
  		{
+ 			musicaFondo.stop();
  			cicloPrincipal.setWindow(2);
  			
  		}
@@ -129,6 +171,8 @@ public class IntroStage extends MWindow {
 		drawEnemy(batch);
 		drawBullets(batch);
 		drawLifeBar(batch);
+		drawEffects(batch);
+		font.draw(batch,"123456789");
 		drawHitbox(s1);
 		
 	}
@@ -137,6 +181,8 @@ public class IntroStage extends MWindow {
 	{
 		lifeBar.setLife(jugador1.getLife());
 		lifeBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()+100);
+		font.setPosX((int)mainCamera.getPosX()-300);
+		font.setPosY((int)mainCamera.getPosY()+200);
 	}
 	
 	public void drawLifeBar(SpriteBatch batch)
@@ -173,7 +219,7 @@ public class IntroStage extends MWindow {
 		colitions.add(new Rectangle(5800,-475,100,600));
 		colitions.add(new Rectangle(5865,140,1525,100));
 		//para revicion
-		colitions.add(new Rectangle(7500,140,250,100));
+		colitions.add(new Rectangle(7500,175,230,100));
 		//
 		colitions.add(new Rectangle(7770,200,200,100));
 		colitions.add(new Rectangle(8100,200,390,100));
@@ -202,12 +248,54 @@ public class IntroStage extends MWindow {
 	
 	public void addEnemy()
 	{
+		
+		enemigos.add(new MiniBot(10,7646,278,colitions));
+		enemigos.add(new MiniBot(10,7946,298,colitions));
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
-		enemigos.add(new RocketRobot(10,1500,300,enemyBullets));
-		enemigos.add(new Beecopter(22,3600,340,mainCamera,jugador1,enemigosAux));
-		enemigos.add(new HammerBot(2,400,400));
-		enemigos.add(new Beebot(4,3700,380));
-		enemigos.add(new Beebot(4,3700,360));
+		enemigos.add(new RocketRobot(10,2400,360,enemyBullets));
+		enemigos.add(new Beebot(4,3500,360));
+		enemigos.add(new Beebot(4,3700,335));
+		enemigos.add(new Beebot(4,3900,380));
+		enemigos.add(new Beebot(4,4900,400));
+		enemigos.add(new Beecopter(26,5600,340,mainCamera,jugador1,enemigosAux));
+		enemigos.add(new Beecopter(26,6800,250,mainCamera,jugador1,enemigosAux));
+		enemigos.add(new Beebot(4,8000,400));
+		enemigos.add(new Beebot(4,8050,300));
+		enemigos.add(new Beebot(4,8250,400));
+		enemigos.add(new Beebot(4,8100,400));
+		enemigos.add(new Beebot(4,8150,300));
+		enemigos.add(new Beebot(4,8350,400));
+		enemigos.add(new Beebot(4,8300,400));
+		enemigos.add(new Beebot(4,8350,300));
+		enemigos.add(new Beebot(4,8550,400));
+		enemigos.add(new RocketRobot(10,8330,322,enemyBullets));
+		enemigos.add(new RocketRobot(10,9330,394,enemyBullets));
+		enemigos.add(new HammerBot(4,10000,350));
+		enemigos.add(new HammerBot(4,10050,350));
+		enemigos.add(new HammerBot(4,10100,350));
+		enemigos.add(new HammerBot(4,10150,350));
+		enemigos.add(new HammerBot(4,10200,350));
+		enemigos.add(new HammerBot(4,10250,350));
+		enemigos.add(new HammerBot(4,10300,350));
+		enemigos.add(new HammerBot(4,10350,350));
+		enemigos.add(new HammerBot(4,10400,350));
+		
+		enemigos.add(new HammerBot(4,10550,400));
+		enemigos.add(new HammerBot(4,10600,400));
+		enemigos.add(new HammerBot(4,10750,400));
+		enemigos.add(new HammerBot(4,10700,400));
+		
+		enemigos.add(new HammerBot(4,11000,350));
+		enemigos.add(new HammerBot(4,11050,350));
+		enemigos.add(new HammerBot(4,11100,350));
+		enemigos.add(new HammerBot(4,11150,350));
+		enemigos.add(new HammerBot(4,11200,350));
+		enemigos.add(new HammerBot(4,11250,350));
+		enemigos.add(new HammerBot(4,11300,350));
+		enemigos.add(new HammerBot(4,11350,350));
+		enemigos.add(new HammerBot(4,11400,350));
+		
+		
 	}
 	
 	public void drawHitbox(ShapeRenderer s1)
@@ -318,6 +406,8 @@ public class IntroStage extends MWindow {
 			if(enemy.getLife() <=0)
 			{
 				enemigosControler.add(enemy);
+				enemigoMuerte.play();
+				effects.add(new Effect(enemy.getPosX(),enemy.getPosY(),new Texture("efffects/explocion.png"),6,640,64,64,64));
 			}	
 		}
 		enemigos.addAll(enemigosAux);
