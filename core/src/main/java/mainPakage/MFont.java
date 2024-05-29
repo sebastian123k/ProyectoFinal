@@ -19,7 +19,7 @@ public class MFont {
 		posY = y;
 		sprite = new Sprite[32];
 		textura = new Texture("font/blue.png");
-		this.createSprites(12,12);
+		this.createSprites(15,12);
 		
 	}
 	

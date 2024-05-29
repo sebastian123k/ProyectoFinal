@@ -30,7 +30,7 @@ import enemigos.Enemy;
 import enemigos.HammerBot;
 import enemigos.MiniBot;
 
-public class IntroStage extends MWindow {
+public class SecondStage extends MWindow {
 	
 	List<Rectangle> colitions = new ArrayList();
 	List<Bullet> enemyBullets = new ArrayList();
@@ -58,7 +58,7 @@ public class IntroStage extends MWindow {
 	private Player jugador1;
     private Camera mainCamera;
 
-	public IntroStage(MainLoop ciclo)
+	public SecondStage(MainLoop ciclo)
 	{
 		super(ciclo);
 		mainCamera = new Camera();
@@ -70,7 +70,7 @@ public class IntroStage extends MWindow {
 		this.addColitions();
 		this.addEnemy();
 		this.addSounds();
-		windowCode = 1;
+		windowCode = 4;
 		
 	}
 	
@@ -85,8 +85,8 @@ public class IntroStage extends MWindow {
 	public void addBackground()
 	{
 
-		backGround = new Texture("stage1assets/backGround.png");
-		levelTexture = new Texture("stage1assets/levelSprite.png");
+		backGround = new Texture("stage2assets/stage2b.png");
+		levelTexture = new Texture("stage2assets/stag2.png");
 		backGroundSprite = new Sprite(backGround);
 		levelSprite = new Sprite(levelTexture);
 		bgposX=4500;
@@ -101,29 +101,6 @@ public class IntroStage extends MWindow {
 	{
 		colitions.add(new Rectangle(-30,200,100,800));
 		colitions.add(new Rectangle(0,170,1570,100));
-		colitions.add(new Rectangle(0,600,1570,100));
-		colitions.add(new Rectangle(1630,235,970,100));
-		colitions.add(new Rectangle(2660,205,1980,100));
-		colitions.add(new Rectangle(4740,205,1020,100));
-		colitions.add(new Rectangle(5470,-475,200,200));
-		colitions.add(new Rectangle(5505,-475,100,720));
-		colitions.add(new Rectangle(5730,-475,200,200));
-		colitions.add(new Rectangle(5800,-475,100,600));
-		colitions.add(new Rectangle(5865,140,1525,100));
-		//para revicion
-		colitions.add(new Rectangle(7500,175,230,100));
-		//
-		colitions.add(new Rectangle(7770,200,200,100));
-		colitions.add(new Rectangle(8100,200,390,100));
-		colitions.add(new Rectangle(8610,270,130,100));
-		colitions.add(new Rectangle(8800,270,130,100));
-		colitions.add(new Rectangle(8990,270,460,100));
-		colitions.add(new Rectangle(9570,200,170,100));
-		colitions.add(new Rectangle(9850,135,720,100));
-		colitions.add(new Rectangle(10660,200,580,100));
-		colitions.add(new Rectangle(11390,135,900,100));
-		colitions.add(new Rectangle(12440,35,2800,100));
-		
 	}
 	
 	public void addPlayer()
@@ -140,54 +117,7 @@ public class IntroStage extends MWindow {
 	
 	public void addEnemy()
 	{
-		
-		enemigos.add(new MiniBot(10,7646,278,colitions));
-		enemigos.add(new MiniBot(10,7946,298,colitions));
-		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
-		enemigos.add(new RocketRobot(10,2400,360,enemyBullets));
-		enemigos.add(new Beebot(4,3500,360));
-		enemigos.add(new Beebot(4,3700,335));
-		enemigos.add(new Beebot(4,3900,380));
-		enemigos.add(new Beebot(4,4900,400));
-		enemigos.add(new Beecopter(26,5600,340,mainCamera,jugador1,enemigosAux));
-		enemigos.add(new Beecopter(26,6800,250,mainCamera,jugador1,enemigosAux));
-		enemigos.add(new Beebot(4,8000,400));
-		enemigos.add(new Beebot(4,8050,300));
-		enemigos.add(new Beebot(4,8250,400));
-		enemigos.add(new Beebot(4,8100,400));
-		enemigos.add(new Beebot(4,8150,300));
-		enemigos.add(new Beebot(4,8350,400));
-		enemigos.add(new Beebot(4,8300,400));
-		enemigos.add(new Beebot(4,8350,300));
-		enemigos.add(new Beebot(4,8550,400));
-		enemigos.add(new RocketRobot(10,8330,322,enemyBullets));
-		enemigos.add(new RocketRobot(10,9330,394,enemyBullets));
-		enemigos.add(new HammerBot(4,10000,350));
-		enemigos.add(new HammerBot(4,10050,350));
-		enemigos.add(new HammerBot(4,10100,350));
-		enemigos.add(new HammerBot(4,10150,350));
-		enemigos.add(new HammerBot(4,10200,350));
-		enemigos.add(new HammerBot(4,10250,350));
-		enemigos.add(new HammerBot(4,10300,350));
-		enemigos.add(new HammerBot(4,10350,350));
-		enemigos.add(new HammerBot(4,10400,350));
-		
-		enemigos.add(new HammerBot(4,10550,400));
-		enemigos.add(new HammerBot(4,10600,400));
-		enemigos.add(new HammerBot(4,10750,400));
-		enemigos.add(new HammerBot(4,10700,400));
-		
-		enemigos.add(new HammerBot(4,11000,350));
-		enemigos.add(new HammerBot(4,11050,350));
-		enemigos.add(new HammerBot(4,11100,350));
-		enemigos.add(new HammerBot(4,11150,350));
-		enemigos.add(new HammerBot(4,11200,350));
-		enemigos.add(new HammerBot(4,11250,350));
-		enemigos.add(new HammerBot(4,11300,350));
-		enemigos.add(new HammerBot(4,11350,350));
-		enemigos.add(new HammerBot(4,11400,350));
-		
-		
+		//enemigos.add(new MiniBot(10,7646,278,colitions));
 	}
 	
 	
@@ -201,8 +131,6 @@ public class IntroStage extends MWindow {
 		updateBullets();
 		updateEffects();
 		updateCamera();
-		
-    	
 	}
 	
 	public void draw(SpriteBatch batch,ShapeRenderer s1)
@@ -281,12 +209,6 @@ public class IntroStage extends MWindow {
 			mainCamera.unlock();
 			mainCamera.setPosX(jugador1.getPosX());
 			mainCamera.setPosY(jugador1.getPosY()+15);
- 		}
- 		
- 		if(jugador1.getPosX()>13500)
- 		{
- 			musicaFondo.stop();
- 			cicloPrincipal.setWindow(4);
  		}
  		
  		if(jugador1.getLife() <= 0)
