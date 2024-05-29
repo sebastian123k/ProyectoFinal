@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import enemigos.Beebot;
 import enemigos.Beecopter;
 import enemigos.Enemy;
+import enemigos.HammerBot;
 
 public class IntroStage extends MWindow {
 	
@@ -98,7 +99,7 @@ public class IntroStage extends MWindow {
 
  		jugador1.hurts(enemigos);
  		jugador1.update();
- 		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
+ 		//System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
  		
  		if(jugador1.getPosY()<-300)
  		{
@@ -204,7 +205,7 @@ public class IntroStage extends MWindow {
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
 		enemigos.add(new RocketRobot(10,1500,300,enemyBullets));
 		enemigos.add(new Beecopter(22,3600,340,mainCamera,jugador1,enemigosAux));
-		enemigos.add(new Beebot(4,500,360));
+		enemigos.add(new HammerBot(2,400,400));
 		enemigos.add(new Beebot(4,3700,380));
 		enemigos.add(new Beebot(4,3700,360));
 	}
