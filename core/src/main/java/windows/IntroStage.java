@@ -149,7 +149,7 @@ public class IntroStage extends MWindow {
 		enemigos.add(new Beebot(4,3700,335));
 		enemigos.add(new Beebot(4,3900,380));
 		enemigos.add(new Beebot(4,4900,400));
-		enemigos.add(new Beecopter(26,5600,340,mainCamera,jugador1,enemigosAux));
+		enemigos.add(new Beecopter(26,5600,330,mainCamera,jugador1,enemigosAux));
 		enemigos.add(new Beecopter(26,6800,250,mainCamera,jugador1,enemigosAux));
 		enemigos.add(new Beebot(4,8000,400));
 		enemigos.add(new Beebot(4,8050,300));
@@ -218,7 +218,7 @@ public class IntroStage extends MWindow {
 		drawLifeBar(batch);
 		drawEffects(batch);
 		
-		drawHitbox(s1);
+		//drawHitbox(s1);
 		
 	}
 	
