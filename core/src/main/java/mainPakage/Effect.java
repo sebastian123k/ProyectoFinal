@@ -20,11 +20,11 @@ public class Effect {
 	int textureY;
 	int textureAncho;
 	int textureLargo;
-	
+	boolean reverse;
 	boolean finish = false;
 	
 	public Effect(float posX, float posY, Texture textura, int animationFrames, int textureX, int textureY,
-			int textureAncho, int textureLargo) {
+			int textureAncho, int textureLargo,float scaleX,float scaleY,boolean reverse) {
 		sprite = new Sprite[16];
 		this.posX = posX;
 		this.posY = posY;
@@ -34,9 +34,19 @@ public class Effect {
 		this.textureY = textureY;
 		this.textureAncho = textureAncho;
 		this.textureLargo = textureLargo;
-		createSprites(textureLargo,textureAncho);
-	}
+		createSprites(textureLargo,textureAncho,scaleX,scaleY);
+		this.reverse = reverse;
+		if(reverse)
+		{
+			animationIndex = animationFrames;
+		}
+		else
+		{
+			animationIndex = 0;
+		}
 	
+		
+	}
 
 	public void draw(SpriteBatch batch) {
 		sprite[animationIndex].setPosition(posX, posY);
@@ -59,18 +69,29 @@ public class Effect {
 	
 	public void updateAnimation()
 	{
+		if(!reverse)
+		{
+			animationIndex++;
+			if(animationIndex>animationFrames)
+	    	{
+	    		finish = true;
+	    	}
+		}
+		else
+		{
+			animationIndex--;
+			if(animationIndex<0)
+	    	{
+	    		finish = true;
+	    	}
+		}
 		
-		animationIndex++;
-		if(animationIndex>animationFrames)
-    	{
-    		finish = true;
-    	}
 		
 		
 	}
 
 	
-	public void createSprites(int spriteHeight, int spriteWeight)
+	public void createSprites(int spriteHeight, int spriteWeight,float scaleX,float scaleY )
 	{
 		TextureRegion Frames;
 
@@ -80,9 +101,9 @@ public class Effect {
            	{
        			if(i<16)
        			{
-       				Frames= new TextureRegion(textura,x,y,spriteHeight,spriteWeight);	
+       				Frames = new TextureRegion(textura,x,y,spriteHeight,spriteWeight);	
            			sprite[i] = new Sprite(Frames);
-           			sprite[i].setScale(3.0f, 3.0f);
+           			sprite[i].setScale(scaleX, scaleY);
            			sprite[i].setPosition(posX, posY);
            			           			
                		i++;
@@ -94,14 +115,55 @@ public class Effect {
 	}
 
 
+
 	public boolean isFinish() {
 		return finish;
 	}
-
+	
+	public void reset()
+	{
+		if(!reverse)
+		{
+			animationIndex =0;
+			finish = false;
+		}
+		else
+		{
+			animationIndex = animationFrames;;
+			finish = false;
+		}
+		
+	}
 
 	public void setFinish(boolean finish) {
 		this.finish = finish;
 	}
+
+	public float getPosX() {
+		return posX;
+	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public boolean isReverse() {
+		return reverse;
+	}
+
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
+	
+	
 	
 	
 

@@ -2,6 +2,7 @@ package windows;
 
 import java.util.ArrayList;
 import enemigos.RocketRobot;
+import enemigos.ShadowDevil;
 import mainPakage.Bullet;
 import mainPakage.Camera;
 import mainPakage.Effect;
@@ -140,7 +141,7 @@ public class IntroStage extends MWindow {
 	
 	public void addEnemy()
 	{
-		
+		enemigos.add(new ShadowDevil(10,400,300,effects));
 		enemigos.add(new MiniBot(10,7646,278,colitions));
 		enemigos.add(new MiniBot(10,7946,298,colitions));
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
@@ -269,7 +270,7 @@ public class IntroStage extends MWindow {
 
  		jugador1.hurts(enemigos);
  		jugador1.update();
- 		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
+ 		//System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
  		
  		if(jugador1.getPosY()<-400)
  		{
@@ -426,7 +427,7 @@ public class IntroStage extends MWindow {
 			{
 				enemigosControler.add(enemy);
 				enemigoMuerte.play();
-				effects.add(new Effect(enemy.getPosX(),enemy.getPosY(),new Texture("efffects/explocion.png"),6,640,64,64,64));
+				effects.add(new Effect(enemy.getPosX(),enemy.getPosY(),new Texture("efffects/explocion.png"),6,640,64,64,64,3.0f,3.0f,false));
 				score+=100;
 			}	
 		}
