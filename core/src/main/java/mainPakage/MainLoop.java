@@ -14,6 +14,7 @@ import windows.MWindow;
 import windows.MainTitle;
 import windows.ScoreScreen;
 import windows.SecondStage;
+import windows.Stage3;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -79,6 +80,9 @@ public class MainLoop extends ApplicationAdapter {
     		break;
     	case 4:
     		ventana = new SecondStage(this);
+    		break;	
+    	case 5:
+    		ventana = new Stage3(this);
     		break;	
     	
     	}

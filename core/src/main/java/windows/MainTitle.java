@@ -58,7 +58,7 @@ public class MainTitle extends MWindow{
 			
 			if(spriteMegaman.getY()==50)
 			{
-				cicloPrincipal.setWindow(4);
+				cicloPrincipal.setWindow(5);
 			}
 			
 		}
