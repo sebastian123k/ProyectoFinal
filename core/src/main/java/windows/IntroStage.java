@@ -143,8 +143,6 @@ public class IntroStage extends MWindow {
 	{
 		//enemigos.add(new ShadowDevil(10,400,300,effects));
 		
-		enemigos.add(new MiniBot(10,7646,278,colitions));
-		enemigos.add(new MiniBot(10,7946,298,colitions));
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
 		enemigos.add(new RocketRobot(10,2400,360,enemyBullets));
 		enemigos.add(new Beebot(4,3500,360));
@@ -165,28 +163,19 @@ public class IntroStage extends MWindow {
 		enemigos.add(new RocketRobot(10,8330,322,enemyBullets));
 		enemigos.add(new RocketRobot(10,9330,394,enemyBullets));
 		enemigos.add(new HammerBot(4,10000,350));
-		enemigos.add(new HammerBot(4,10050,350));
 		enemigos.add(new HammerBot(4,10100,350));
-		enemigos.add(new HammerBot(4,10150,350));
 		enemigos.add(new HammerBot(4,10200,350));
 		enemigos.add(new HammerBot(4,10250,350));
 		enemigos.add(new HammerBot(4,10300,350));
-		enemigos.add(new HammerBot(4,10350,350));
 		enemigos.add(new HammerBot(4,10400,350));
-		
-		enemigos.add(new HammerBot(4,10550,400));
 		enemigos.add(new HammerBot(4,10600,400));
 		enemigos.add(new HammerBot(4,10750,400));
 		enemigos.add(new HammerBot(4,10700,400));
-		
 		enemigos.add(new HammerBot(4,11000,350));
 		enemigos.add(new HammerBot(4,11050,350));
 		enemigos.add(new HammerBot(4,11100,350));
-		enemigos.add(new HammerBot(4,11150,350));
 		enemigos.add(new HammerBot(4,11200,350));
 		enemigos.add(new HammerBot(4,11250,350));
-		enemigos.add(new HammerBot(4,11300,350));
-		enemigos.add(new HammerBot(4,11350,350));
 		enemigos.add(new HammerBot(4,11400,350));
 		
 		
@@ -290,6 +279,7 @@ public class IntroStage extends MWindow {
  			musicaFondo.stop();
  			cicloPrincipal.setWindow(4);
  		}
+ 		
  		
  		if(jugador1.getLife() <= 0)
  		{

@@ -753,6 +753,16 @@ public class Player {
 	
 
 
+	public boolean isJumping() {
+		return isJumping;
+	}
+
+
+	public void setJumping(boolean isJumping) {
+		this.isJumping = isJumping;
+	}
+
+
 	public int getEnergy() {
 		return energy;
 	}

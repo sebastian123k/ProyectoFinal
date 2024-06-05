@@ -51,7 +51,7 @@ public class GameOverScreen extends MWindow{
 	public void update() {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
 		{
-			cicloPrincipal.setWindow(1);
+			cicloPrincipal.setWindow(cicloPrincipal.getCurrentWindow());
 		}
 		if((Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) && spriteMegaman.getY()==150)
 		{

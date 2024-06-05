@@ -161,9 +161,28 @@ public class SecondStage extends MWindow {
 	
 	public void addEnemy()
 	{
-		//enemigos.add(new MiniBot(10,7646,278,colitions));
-		enemigos.add(new Batbot(4,500,500));
-		enemigos.add(new Armadillo(4,500,500,colitions));
+		enemigos.add(new MiniBot(10,620,314,colitions));
+		enemigos.add(new MiniBot(10,1320,314,colitions));
+		enemigos.add(new MiniBot(10,1220,314,colitions));
+		enemigos.add(new RocketRobot(10,1700,334,enemyBullets));
+		enemigos.add(new MiniBot(10,2110,314,colitions));
+		enemigos.add(new MiniBot(10,3010,314,colitions));
+		enemigos.add(new RocketRobot(10,3622,278,enemyBullets));
+		enemigos.add(new HammerBot(4,5080,-150));
+		enemigos.add(new HammerBot(4,5280,-150));
+		enemigos.add(new HammerBot(4,5480,-150));
+		enemigos.add(new HammerBot(4,5680,-150));
+		enemigos.add(new HammerBot(4,5780,-150));
+		enemigos.add(new HammerBot(4,6080,-150));
+		enemigos.add(new HammerBot(4,6380,-150));
+		enemigos.add(new HammerBot(4,6680,-150));
+		enemigos.add(new HammerBot(4,6980,-150));
+		enemigos.add(new HammerBot(4,7280,-150));
+		enemigos.add(new HammerBot(4,7580,-150));
+		enemigos.add(new MiniBot(10,9408,818,colitions));
+		enemigos.add(new MiniBot(10,9908,818,colitions));
+		enemigos.add(new MiniBot(10,10108,752,colitions));
+		enemigos.add(new MiniBot(10,8850,752,colitions));
 	}
 	
 	
@@ -225,17 +244,13 @@ public class SecondStage extends MWindow {
 	
 	public void updateCamera()
 	{
-		if(jugador1.getPosY() < 270)
-		{
-			mainCamera.setPosY(jugador1.getPosY()+15);
-		}
-		if(jugador1.getPosX() >400)
+		if(jugador1.getPosX() >200)
 		{
 			mainCamera.setPosX(jugador1.getPosX());
 		}
-		mainCamera.setPosX(jugador1.getPosX());
-		
+	
 		mainCamera.setPosY(jugador1.getPosY()+30);
+	
     	mainCamera.update();
 	}
 	
@@ -248,14 +263,20 @@ public class SecondStage extends MWindow {
  		
  		if(jugador1.getPosY()<-400)
  		{
- 			jugador1.setPosX(400);
- 			jugador1.setPosY(300);
+ 			jugador1.setPosX(300);
+ 			jugador1.setPosY(500);
  			
 			addBackground();
 			jugador1.setLife(jugador1.getLife()-2);
 			mainCamera.unlock();
 			mainCamera.setPosX(jugador1.getPosX());
 			mainCamera.setPosY(jugador1.getPosY()+15);
+ 		}
+ 		
+ 		if(jugador1.getPosX()>14634)
+ 		{
+ 			musicaFondo.stop();
+ 			cicloPrincipal.setWindow(5);
  		}
  		
  		if(jugador1.getLife() <= 0)

@@ -18,14 +18,15 @@ public class Batbot extends Enemy{
 	private int animationIndex;
 	private int	animationInicialRange;
 	private int animationFinalRange;
+	int direction = 1;
 
-
-	public Batbot(int life, float posx, float posy) {
+	Player player;
+	public Batbot(int life, float posx, float posy,Player player) {
 		super(life, posx, posy);
 		
 		this.setTextura(new Texture("enemigos/batbot.png"));
 		this.createSprites(64,64);
-		
+		this.player = player;
 		animationInicialRange = 0;
 		animationFinalRange = 2;
 		animationIndex = 0;
@@ -71,7 +72,22 @@ public class Batbot extends Enemy{
 		tiempoTranscurrido += Gdx.graphics.getDeltaTime();
     	if(tiempoTranscurrido>0.01)
     	{
-    		posX-=3;
+    		if(player.getPosX()-350<posX)
+    		{
+    			
+    		}
+    		else
+    		{
+    			direction = 0;
+    		}
+    		if(direction == 1)
+    		{
+    			posX-=3;
+    		}else
+    		{
+    			posX += 4;
+    		}
+    		
     		tiempoTranscurrido=0;
     	}
     	

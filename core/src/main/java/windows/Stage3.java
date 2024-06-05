@@ -12,7 +12,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+import enemigos.Armadillo;
+import enemigos.Batbot;
 import enemigos.Enemy;
+import enemigos.MiniBot;
 import mainPakage.Bullet;
 import mainPakage.Camera;
 import mainPakage.Effect;
@@ -68,7 +71,7 @@ public class Stage3 extends MWindow {
 	
 	public void addSounds()
 	{
-		musicaFondo = Gdx.audio.newSound(Gdx.files.internal("stage2assets/stage2Music.mp3"));
+		musicaFondo = Gdx.audio.newSound(Gdx.files.internal("stage3assets/stage3Music.mp3"));
 		musicaFondo.loop();
 		enemigoMuerte = Gdx.audio.newSound(Gdx.files.internal("enemigos/enemyDie.wav"));
 		
@@ -81,11 +84,11 @@ public class Stage3 extends MWindow {
 		levelTexture = new Texture("stage3assets/stage3.png");
 		backGroundSprite = new Sprite(backGround);
 		levelSprite = new Sprite(levelTexture);
-		bgposX=6500;
+		bgposX=6400;
 		bgposY=-1550;
 		backGroundSprite.setPosition(bgposX,bgposY);
 		backGroundSprite.setScale(4.0f, 4.0f);
-		levelSprite.setPosition(5800, -2210);
+		levelSprite.setPosition(5770, -2180);
 		levelSprite.setScale(2.0f,2.1f);		
 	}
 	
@@ -110,15 +113,17 @@ public class Stage3 extends MWindow {
 		colitions.add(new Rectangle(5550,-600,970,120));
 		colitions.add(new Rectangle(6500,-750,150,170));
 		colitions.add(new Rectangle(6500,-950,270,240));
-		colitions.add(new Rectangle(6500,-950,2570,40));
+		colitions.add(new Rectangle(6500,-1950,3600,1070));
+		colitions.add(new Rectangle(9500,-3950,4140,2530));
+		colitions.add(new Rectangle(9500,-3950,20170,1400));
 
 	}
 	
 	public void addPlayer()
 	{
 		jugador1 = new Player();
-		jugador1.setPosX(6510);
-		jugador1.setPosY(100);
+		jugador1.setPosX(400);
+		jugador1.setPosY(400);
 		jugador1.setColitions(colitions);
 		jugador1.setBullets(bullets);
 		jugador1.setEnemigos(enemigos);
@@ -128,7 +133,37 @@ public class Stage3 extends MWindow {
 	
 	public void addEnemy()
 	{
-		//enemigos.add(new MiniBot(10,7646,278,colitions));
+		enemigos.add(new Batbot(10,800,300,jugador1));
+		enemigos.add(new Armadillo(10,2500,-238,colitions,jugador1,2.0f));
+		enemigos.add(new Armadillo(10,6092,-800,colitions,jugador1,2.0f));
+		enemigos.add(new Armadillo(10,9300,-1400,colitions,jugador1,2.0f));
+		enemigos.add(new Armadillo(10,13664,-2526,colitions,jugador1,6.0f));
+		enemigos.add(new Batbot(10,7000,-816,jugador1));
+		enemigos.add(new Batbot(10,7300,-856,jugador1));
+		enemigos.add(new Batbot(10,7600,-866,jugador1));
+		//enemigos.add(new Batbot(10,7900,-896,jugador1));
+		enemigos.add(new Batbot(10,8200,-866,jugador1));
+		enemigos.add(new Batbot(10,8500,-866,jugador1));
+		enemigos.add(new MiniBot(10,7000,-880,colitions));
+		enemigos.add(new MiniBot(10,7500,-880,colitions));
+		enemigos.add(new MiniBot(10,8000,-880,colitions));
+		enemigos.add(new MiniBot(10,8500,-880,colitions));
+		
+		enemigos.add(new MiniBot(10,10500,-1408,colitions));
+		enemigos.add(new MiniBot(10,11000,-1408,colitions));
+		enemigos.add(new MiniBot(10,11500,-1408,colitions));
+		enemigos.add(new MiniBot(10,12000,-1408,colitions));
+		enemigos.add(new MiniBot(10,12500,-1408,colitions));
+		enemigos.add(new MiniBot(10,13000,-1408,colitions));
+		
+		enemigos.add(new Batbot(10,11000,-1358,jugador1));
+		enemigos.add(new Batbot(10,11300,-1358,jugador1));
+		enemigos.add(new Batbot(10,11900,-1358,jugador1));
+		enemigos.add(new Batbot(10,12700,-1358,jugador1));
+		enemigos.add(new Batbot(10,13000,-1358,jugador1));
+		
+		
+
 	}
 	
 	
@@ -157,7 +192,7 @@ public class Stage3 extends MWindow {
 		drawLifeBar(batch);
 		drawEffects(batch);
 		
-		drawHitbox(s1);
+		//drawHitbox(s1);
 		
 	}
 	
@@ -190,15 +225,11 @@ public class Stage3 extends MWindow {
 	
 	public void updateCamera()
 	{
-		if(jugador1.getPosY() < 270)
-		{
-			mainCamera.setPosY(jugador1.getPosY()+15);
-		}
-		if(jugador1.getPosX() >400)
+
+		if(jugador1.getPosX() >352)
 		{
 			mainCamera.setPosX(jugador1.getPosX());
 		}
-		mainCamera.setPosX(jugador1.getPosX());
 		
 		mainCamera.setPosY(jugador1.getPosY()+30);
     	mainCamera.update();
@@ -211,7 +242,7 @@ public class Stage3 extends MWindow {
  		jugador1.update();
  		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
  		
- 		if(jugador1.getPosY()<-10600)
+ 		if(jugador1.getPosY()<-4000)
  		{
  			jugador1.setPosX(400);
  			jugador1.setPosY(300);
@@ -222,6 +253,7 @@ public class Stage3 extends MWindow {
 			mainCamera.setPosX(jugador1.getPosX());
 			mainCamera.setPosY(jugador1.getPosY()+15);
  		}
+ 		//>20000
  		
  		if(jugador1.getLife() <= 0)
  		{
@@ -357,7 +389,17 @@ public class Stage3 extends MWindow {
 		for (Enemy enemy : enemigos) {
 			if(enemy.getPosX()< jugador1.getPosX()+800)
 			{
-				enemy.update();
+				if(enemy.getClass().equals(Armadillo.class))
+				{
+					if(enemy.getPosY()> jugador1.getPosY()-350)
+					{
+						enemy.update();
+					}
+				}
+				else
+				{
+					enemy.update();
+				}
 			}
 			
 		}

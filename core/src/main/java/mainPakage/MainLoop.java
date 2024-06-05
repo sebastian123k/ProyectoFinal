@@ -76,6 +76,7 @@ public class MainLoop extends ApplicationAdapter {
     		ventana = new GameOverScreen(this);
     		break;
     	case 3:
+    		
     		ventana = new ScoreScreen(this);
     		break;
     	case 4:
@@ -92,8 +93,13 @@ public class MainLoop extends ApplicationAdapter {
     {
     	currentWindow = window;
     }
+    
 
-    @Override
+    public int getCurrentWindow() {
+		return currentWindow;
+	}
+
+	@Override
     public void dispose() {
         batch.dispose();
  
