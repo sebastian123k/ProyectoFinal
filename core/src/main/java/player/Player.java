@@ -54,12 +54,19 @@ public class Player {
 	boolean isJumping;
 	boolean isShoting;
 	boolean hurts;
+	boolean powerUp = true;
 	int direction;
+	int energy = 20;
 
 	Texture texturaMegaman;
 	Sprite[] spriteMegaman;
 	Texture texturaShotingMegaman;
 	Sprite[] spriteShotingMegaman;
+	Texture texturaMegamanPower;
+	Sprite[] spriteMegamanPower;
+	Texture texturaShotingMegamanPower;
+	Sprite[] spriteShotingMegamanPower;
+	
 	Texture texturaBullets;
 	Sprite[] spriteBullets;
     Rectangle hitbox;
@@ -68,6 +75,7 @@ public class Player {
     Rectangle upHitbox;
     
     float tiempoTranscurrido;
+    float tiempoTranscurridoPower;
     float tiempoTranscurridoAnimacion;
     float tiempoTranscurridoHurt;
     int animationIndex;
@@ -81,6 +89,7 @@ public class Player {
     Sound sonidoSalto;
     Sound sonidoHurt;
     Sound sonidoShoot;
+    Sound sonidoPowerShoot;
     
     public Player()
     {
@@ -110,6 +119,10 @@ public class Player {
     	spriteMegaman = new Sprite[33];
     	texturaShotingMegaman = new Texture("player/playerShootingSpritesheet.png");
     	spriteShotingMegaman = new Sprite[33];
+    	texturaMegamanPower = new Texture("player/playerPowerSpritesheet.png");
+    	spriteMegamanPower = new Sprite[33];
+    	texturaShotingMegamanPower = new Texture("player/playerPowerShootingSpritesheet.png");
+    	spriteShotingMegamanPower = new Sprite[33];
     	texturaBullets = new Texture("proyectil.png"); 
     	spriteBullets = new Sprite[30];
     	animationInicialRange = 0;
@@ -129,11 +142,10 @@ public class Player {
     public void addSounds()
 	{
 		sonidoSalto = Gdx.audio.newSound(Gdx.files.internal("Player/soundJump.wav"));
-		sonidoSalto.setVolume(1, 0.5f);
 		sonidoShoot = Gdx.audio.newSound(Gdx.files.internal("Player/soundShoot.wav"));
-		sonidoShoot.setVolume(1, 0.5f);
+		sonidoPowerShoot = Gdx.audio.newSound(Gdx.files.internal("Player/soundCharge.wav"));
 		sonidoHurt = Gdx.audio.newSound(Gdx.files.internal("Player/soundHurt.wav"));
-		sonidoHurt.setVolume(1, 0.5f);
+		
 		
 		
 	}
@@ -202,9 +214,9 @@ public class Player {
         spriteHeight = 48;
         spriteWeight = 48;
 
-       	for(int y = 0,i = 0; y<texturaMegaman.getWidth();y+=spriteWeight)
+       	for(int y = 0,i = 0; y<256;y+=spriteWeight)
        	{
-       		for(int x = 0; x<texturaMegaman.getHeight();x+=spriteHeight)
+       		for(int x = 0; x<256;x+=spriteHeight)
            	{
        			if(i<27)
        			{
@@ -246,8 +258,8 @@ public class Player {
     	}
     	
     }
-    
-    private void updatePosition()
+
+	private void updatePosition()
     {
     	
 		if(isOnFloor())
@@ -361,6 +373,43 @@ public class Player {
 			 }
 			 
 			 
+		 }
+		 
+		 if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isShoting && !hurts)
+		 {
+			 if(powerUp && energy>0)
+			 {
+				 
+				 tiempoTranscurridoPower += Gdx.graphics.getDeltaTime();
+				 
+			 }
+			 
+		 }
+		 else
+		 {
+			 if(tiempoTranscurridoPower >1.0)
+			 {
+				 if(touchWall() && !isOnFloor())
+				 {
+					 if(direction == 1)
+					 {
+						 bullets.add(new Bullet(posX-20,posY-10,0,10,8,8,spriteBullets,5,9,0,colitions));
+					 }
+					 else 
+					 {
+						 bullets.add(new Bullet(posX+20,posY-10,1,10,8,8,spriteBullets,5,9,0,colitions));
+					 }
+					 
+				 }
+				 else
+				 {
+					 bullets.add(new Bullet(posX,posY-10,direction,10,8,8,spriteBullets,5,9,0,colitions));
+				 }
+				 tiempoTranscurridoPower = 0;
+				 sonidoShoot.play();
+				 isShoting = true;
+				 energy -=2;
+			 }
 		 }
 		 
 		 if(isShoting)
@@ -630,6 +679,21 @@ public class Player {
     	lateralHitbox.setPosition(posX+10, posY-15);
     	return lateralHitbox;
     }
+    
+    public boolean isPowerUp() {
+		return powerUp;
+	}
+
+
+	public void setPowerUp(boolean powerUp) {
+		this.powerUp = powerUp;
+		if(powerUp)
+		{
+			spriteMegaman = spriteMegamanPower;
+			spriteShotingMegaman = spriteShotingMegamanPower;
+		}
+	}
+
 
 	public float getPosX() {
 		return posX;
@@ -685,6 +749,17 @@ public class Player {
 
 	public void setHurts(boolean hurts) {
 		this.hurts = hurts;
+	}
+	
+
+
+	public int getEnergy() {
+		return energy;
+	}
+
+
+	public void setEnergy(int energy) {
+		this.energy = energy;
 	}
 
 

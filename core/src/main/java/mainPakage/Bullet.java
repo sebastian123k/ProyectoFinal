@@ -17,8 +17,6 @@ public class Bullet {
 	int speed;
 	int power;
 	int size;
-	boolean isSpawning;
-	boolean hits;
 	
 	Sprite[] bulletSprite;
 	Rectangle hitbox;
@@ -45,9 +43,7 @@ public class Bullet {
 		this.hitFrameRange = hitFrameRange;
 		this.colitions = colitions;
 		
-		isSpawning = true;
-		hits=false;
-		animationIndex = 0;
+		animationIndex = spawnFramesRange;
 		hitbox = new Rectangle(posX+size,posY+size,size,size);
 	}
 	
@@ -66,9 +62,7 @@ public class Bullet {
 		this.hitFrameRange = hitFrameRange;
 		this.colitions = colitions;
 		
-		isSpawning = true;
-		hits=false;
-		animationIndex = 0;
+		animationIndex = spawnFramesRange;
 		hitbox = new Rectangle(posX+size,posY+size,size,size);
 	}
 
@@ -106,23 +100,12 @@ public class Bullet {
 	
 	public void updateAnimation()
 	{
-		if(isSpawning)
-		{
-			animationIndex++;
-			if(animationIndex>spawnFramesRange)
-			{
-				isSpawning = false;
-			}
-		}
-		else
-		{
-			animationIndex++;
-        	
-        	if(animationIndex>animationFrameRange)
-        	{
-        		animationIndex = spawnFramesRange;
-        	}
-		}
+
+		animationIndex++;
+    	if(animationIndex>animationFrameRange)
+    	{
+    		animationIndex = spawnFramesRange;
+    	}
 		
 	}
 	

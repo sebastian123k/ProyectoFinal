@@ -20,6 +20,7 @@ import mainPakage.MFont;
 import mainPakage.MainLoop;
 import player.LifeBar;
 import player.Player;
+import player.PowerBar;
 
 public class Stage3 extends MWindow {
 	
@@ -40,6 +41,7 @@ public class Stage3 extends MWindow {
 	int bgposX, bgposY;
 	Sprite levelSprite;
 	LifeBar lifeBar = new LifeBar();
+	PowerBar powerBar = new PowerBar();
 	Sound musicaFondo;
 	Sound enemigoMuerte;
 	MFont font;
@@ -106,7 +108,9 @@ public class Stage3 extends MWindow {
 		colitions.add(new Rectangle(5880,-500,120,240));
 		colitions.add(new Rectangle(5880,-500,370,150));
 		colitions.add(new Rectangle(5550,-600,970,120));
-		colitions.add(new Rectangle(6550,-600,300,80));
+		colitions.add(new Rectangle(6500,-750,150,170));
+		colitions.add(new Rectangle(6500,-950,270,240));
+		colitions.add(new Rectangle(6500,-950,2570,40));
 
 	}
 	
@@ -207,7 +211,7 @@ public class Stage3 extends MWindow {
  		jugador1.update();
  		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
  		
- 		if(jugador1.getPosY()<-600)
+ 		if(jugador1.getPosY()<-10600)
  		{
  			jugador1.setPosX(400);
  			jugador1.setPosY(300);
@@ -231,6 +235,8 @@ public class Stage3 extends MWindow {
 	{
 		lifeBar.setLife(jugador1.getLife());
 		lifeBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()+100);
+		powerBar.setLife(jugador1.getEnergy());
+		powerBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()-20);
 		font.setPosX((int)mainCamera.getPosX()-150);
 		font.setPosY((int)mainCamera.getPosY()+242);
 		tscore.setPosition((int)mainCamera.getPosX()-250,(int)mainCamera.getPosY()+225);
@@ -240,7 +246,12 @@ public class Stage3 extends MWindow {
 	public void drawLifeBar(SpriteBatch batch)
 	{
 		lifeBar.draw(batch);
+		if(jugador1.isPowerUp())
+		{
+			powerBar.draw(batch);
+		}
 		batch.begin();
+	
 		tscore.draw(batch);
 		batch.end();
 		font.draw(batch,Integer.toString(score));

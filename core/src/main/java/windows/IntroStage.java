@@ -10,6 +10,7 @@ import mainPakage.MFont;
 import mainPakage.MainLoop;
 import player.LifeBar;
 import player.Player;
+import player.PowerBar;
 
 import java.util.List;
 import com.badlogic.gdx.Gdx;
@@ -50,12 +51,11 @@ public class IntroStage extends MWindow {
 	int bgposX, bgposY;
 	Sprite levelSprite;
 	LifeBar lifeBar = new LifeBar();
+	PowerBar powerBar = new PowerBar();
 	Sound musicaFondo;
 	Sound enemigoMuerte;
 	MFont font;
-	
 	int score;
-	
 	private Player jugador1;
     private Camera mainCamera;
 
@@ -141,7 +141,8 @@ public class IntroStage extends MWindow {
 	
 	public void addEnemy()
 	{
-		enemigos.add(new ShadowDevil(10,400,300,effects));
+		//enemigos.add(new ShadowDevil(10,400,300,effects));
+		
 		enemigos.add(new MiniBot(10,7646,278,colitions));
 		enemigos.add(new MiniBot(10,7946,298,colitions));
 		enemigos.add(new RocketRobot(10,1000,300,enemyBullets));
@@ -302,6 +303,8 @@ public class IntroStage extends MWindow {
 	{
 		lifeBar.setLife(jugador1.getLife());
 		lifeBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()+100);
+		powerBar.setLife(jugador1.getEnergy());
+		powerBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()-20);
 		font.setPosX((int)mainCamera.getPosX()-150);
 		font.setPosY((int)mainCamera.getPosY()+242);
 		tscore.setPosition((int)mainCamera.getPosX()-250,(int)mainCamera.getPosY()+225);
@@ -311,6 +314,10 @@ public class IntroStage extends MWindow {
 	public void drawLifeBar(SpriteBatch batch)
 	{
 		lifeBar.draw(batch);
+		if(jugador1.isPowerUp())
+		{
+			powerBar.draw(batch);
+		}
 		batch.begin();
 		tscore.draw(batch);
 		batch.end();

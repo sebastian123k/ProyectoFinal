@@ -9,6 +9,7 @@ import mainPakage.MFont;
 import mainPakage.MainLoop;
 import player.LifeBar;
 import player.Player;
+import player.PowerBar;
 
 import java.util.List;
 import com.badlogic.gdx.Gdx;
@@ -51,6 +52,7 @@ public class SecondStage extends MWindow {
 	int bgposX, bgposY;
 	Sprite levelSprite;
 	LifeBar lifeBar = new LifeBar();
+	PowerBar powerBar = new PowerBar();
 	Sound musicaFondo;
 	Sound enemigoMuerte;
 	MFont font;
@@ -268,6 +270,8 @@ public class SecondStage extends MWindow {
 	{
 		lifeBar.setLife(jugador1.getLife());
 		lifeBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()+100);
+		powerBar.setLife(jugador1.getEnergy());
+		powerBar.setPosition((int)mainCamera.getPosX()-400,(int)mainCamera.getPosY()-20);
 		font.setPosX((int)mainCamera.getPosX()-150);
 		font.setPosY((int)mainCamera.getPosY()+242);
 		tscore.setPosition((int)mainCamera.getPosX()-250,(int)mainCamera.getPosY()+225);
@@ -277,6 +281,10 @@ public class SecondStage extends MWindow {
 	public void drawLifeBar(SpriteBatch batch)
 	{
 		lifeBar.draw(batch);
+		if(jugador1.isPowerUp())
+		{
+			powerBar.draw(batch);
+		}
 		batch.begin();
 		tscore.draw(batch);
 		batch.end();
