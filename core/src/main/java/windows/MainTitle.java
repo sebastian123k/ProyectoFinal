@@ -29,19 +29,19 @@ public class MainTitle extends MWindow{
 		titleX = new Texture("tittle/titleX.png");
 		megaman = new Texture("tittle/megaman1.png");
 		spriteTitle = new Sprite(title);
-		spriteTitle.setPosition(200, 300);
+		spriteTitle.setPosition(250, 300);
 		spriteTitle.setScale(3.0f,3.0f);
 		spriteTitleX = new Sprite(titleX);
-		spriteTitleX.setPosition(520, 280);
+		spriteTitleX.setPosition(570, 280);
 		spriteTitleX.setScale(3.0f,3.0f);
 		spriteMegaman = new Sprite(megaman);
 		spriteMegaman.setPosition(50, 150);
 		spriteMegaman.setScale(2.0f,2.0f);
 		spriteScore = new Sprite(new Texture("tittle/blueScore.png"));
-		spriteScore.setPosition(340, 50);
+		spriteScore.setPosition(390, 50);
 		spriteScore.setScale(2.0f,2.0f);
 		spriteStart = new Sprite(new Texture("tittle/gameStartFont.png"));
-		spriteStart.setPosition(350, 150);
+		spriteStart.setPosition(400, 150);
 		spriteStart.setScale(2.0f,2.0f);
 		
 		windowCode = 0;
@@ -58,7 +58,7 @@ public class MainTitle extends MWindow{
 			
 			if(spriteMegaman.getY()==50)
 			{
-				cicloPrincipal.setWindow(5);
+				cicloPrincipal.setWindow(6);
 			}
 			
 		}

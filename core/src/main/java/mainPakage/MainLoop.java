@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+import windows.BossStage;
 import windows.GameOverScreen;
 import windows.IntroStage;
 import windows.MWindow;
@@ -84,7 +85,10 @@ public class MainLoop extends ApplicationAdapter {
     		break;	
     	case 5:
     		ventana = new Stage3(this);
-    		break;	
+    		break;
+    	case 6:
+    		ventana = new BossStage(this);
+    		break;
     	
     	}
     }

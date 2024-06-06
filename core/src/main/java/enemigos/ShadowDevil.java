@@ -32,11 +32,12 @@ public class ShadowDevil extends Enemy {
  	int spritePosY;
  	List<Effect> effects;
  	Effect efecto;
+ 	List<Enemy> enemigos;
 	
 	ShadowPart partes[][] = new ShadowPart[4][4];
 	int partesPosY[][] = new int [4][4];
 	
-	public ShadowDevil(int life, float posx, float posy,List<Effect> effects) {
+	public ShadowDevil(int life, float posx, float posy,List<Effect> effects,List<Enemy> enemigos) {
 		super(life, posx, posy);
 		this.setTextura(new Texture("shadow/shadowDevilBody.png"));
 		this.createSprites(256,256);
@@ -47,10 +48,12 @@ public class ShadowDevil extends Enemy {
 		this.effects = effects;
 		spritePosY = (int)posY;
 		spritePosX = (int)posX;
+		this.enemigos = enemigos; 
 		addShadowParts();
 		efecto = new Effect(posX-250,posY-20,new Texture("shadow/shadowDevilEffect.png"),13,576,640,128,192,3.0f,2.0f,false);
 		efecto.setFinish(true);
 		tiempoTranscurridoCompleto = 0;
+		
 	
 	}
 	
@@ -62,11 +65,11 @@ public class ShadowDevil extends Enemy {
 			{
 				partes[i][j] = new ShadowPart(100000,posX+(i*80),posY+(j*80)-20);
 				partesPosY[i][j] = (int)partes[i][j].getPosY();
+				enemigos.add(partes[i][j]);
 			}
 		}
 		
 	}
-	
 	
 	public void createSprites(int spriteHeight, int spriteWeight)
 	{
@@ -176,7 +179,7 @@ public class ShadowDevil extends Enemy {
     	}
     	
     	tiempoTranscurridoAnimacion += Gdx.graphics.getDeltaTime();
-    	if(tiempoTranscurridoAnimacion > 0.1)
+    	if(tiempoTranscurridoAnimacion > 0.2)
     	{
     		updateAnimation();
         	tiempoTranscurridoAnimacion = 0;
