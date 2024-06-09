@@ -75,6 +75,24 @@ public class SecondStage extends MWindow {
 		this.addEnemy();
 		this.addSounds();
 		windowCode = 4;
+		cicloPrincipal.setLevel(windowCode);
+		
+	}
+	public SecondStage(MainLoop ciclo,int seccion)
+	{
+		super(ciclo);
+		mainCamera = new Camera();
+		font = new MFont(10,10);
+		score = 0;
+		tscore = new Sprite(new Texture("tittle/blueScore.png"));
+		this.addBackground();
+		this.seccion = seccion;
+		this.addPlayer();
+		this.addColitions();
+		this.addEnemy();
+		this.addSounds();
+		windowCode = 4;
+		cicloPrincipal.setLevel(windowCode);
 		
 	}
 	
@@ -93,8 +111,8 @@ public class SecondStage extends MWindow {
 		levelTexture = new Texture("stage2assets/stag2.png");
 		backGroundSprite = new Sprite(backGround);
 		levelSprite = new Sprite(levelTexture);
-		bgposX=4500;
-		bgposY=-250;
+		bgposX=4800;
+		bgposY=100;
 		backGroundSprite.setPosition(bgposX,bgposY);
 		backGroundSprite.setScale(4.0f, 4.0f);
 		levelSprite.setPosition(3800, -210);
@@ -150,11 +168,20 @@ public class SecondStage extends MWindow {
 	public void addPlayer()
 	{
 		jugador1 = new Player();
-		jugador1.setPosX(300);
-		jugador1.setPosY(500);
 		jugador1.setColitions(colitions);
 		jugador1.setBullets(bullets);
 		jugador1.setEnemigos(enemigos);
+		
+		if(seccion == 0)
+		{
+			jugador1.setPosX(300);
+			jugador1.setPosY(500);
+		}
+		else
+		{
+			jugador1.setPosX(7944);
+ 			jugador1.setPosY(266);
+		}
 		mainCamera.setPosY(jugador1.getPosY()+15);
 		mainCamera.setPosX(jugador1.getPosX());
 	}
@@ -261,10 +288,26 @@ public class SecondStage extends MWindow {
  		jugador1.update();
  		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
  		
+ 		if(jugador1.getPosX()> 7900)
+ 		{
+ 			seccion = 1;
+ 			cicloPrincipal.setScore(score);
+ 		}
+ 		
+ 		
  		if(jugador1.getPosY()<-400)
  		{
- 			jugador1.setPosX(300);
- 			jugador1.setPosY(500);
+ 			if(seccion == 0)
+ 			{
+ 				jugador1.setPosX(300);
+ 	 			jugador1.setPosY(500);
+ 			}
+ 			else
+ 			{
+ 				jugador1.setPosX(7944);
+ 	 			jugador1.setPosY(266);
+ 			}
+ 			
  			
 			addBackground();
 			jugador1.setLife(jugador1.getLife()-2);
@@ -276,12 +319,15 @@ public class SecondStage extends MWindow {
  		if(jugador1.getPosX()>14634)
  		{
  			musicaFondo.stop();
+ 			cicloPrincipal.setSeccion(0);
+ 			cicloPrincipal.setScore(score);
  			cicloPrincipal.setWindow(5);
  		}
  		
  		if(jugador1.getLife() <= 0)
  		{
  			musicaFondo.stop();
+ 			cicloPrincipal.setSeccion(seccion);
  			cicloPrincipal.setWindow(2);
  			
  		}
@@ -437,6 +483,14 @@ public class SecondStage extends MWindow {
 		for (Enemy enemy : enemigos) {
 			enemy.draw(batch);
 		}
+	}
+	
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 

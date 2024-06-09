@@ -44,7 +44,7 @@ public class ShadowDevil extends Enemy {
 		animationInicialRange = 2;
 		animationFinalRange = 2;
 		animationIndex = 0;
-		hitbox = new Rectangle(posX,posY,1,1);
+		hitbox = new Rectangle(posX,posY,32,32);
 		this.effects = effects;
 		spritePosY = (int)posY;
 		spritePosX = (int)posX;

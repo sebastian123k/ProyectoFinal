@@ -50,6 +50,8 @@ public class BossStage extends MWindow {
 	Sound musicaFondo;
 	Sound enemigoMuerte;
 	MFont font;
+	float tiempoTranscurrido;
+	Enemy shadow;
 	
 	int score;
 	
@@ -68,6 +70,7 @@ public class BossStage extends MWindow {
 		this.addEnemy();
 		this.addSounds();
 		windowCode = 6;
+		cicloPrincipal.setLevel(windowCode);
 		
 	}
 	
@@ -117,7 +120,9 @@ public class BossStage extends MWindow {
 	
 	public void addEnemy()
 	{
-		enemigos.add(new ShadowDevil(10,270,220,effects,enemigos));
+		
+		shadow = new ShadowDevil(10,270,220,effects,enemigos);
+		enemigos.add(shadow);
 
 	}
 	
@@ -132,6 +137,19 @@ public class BossStage extends MWindow {
 		updateBullets();
 		updateEffects();
 		updateCamera();
+		if(shadow.getLife()<=0)
+		{
+			tiempoTranscurrido += Gdx.graphics.getDeltaTime();
+	    	if(tiempoTranscurrido > 5)
+	    	{
+	    		score +=1000;
+	    		musicaFondo.stop();
+	 			cicloPrincipal.setSeccion(0);
+	 			cicloPrincipal.setScore(score);
+	 			cicloPrincipal.setWindow(7);
+	    	}
+		}
+	
 	}
 	
 	public void draw(SpriteBatch batch,ShapeRenderer s1)
@@ -370,6 +388,13 @@ public class BossStage extends MWindow {
 				enemy.draw(batch);
 			}
 		}
+	}
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 

@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import mainPakage.Camera;
+import mainPakage.DataBaseConnector;
 import mainPakage.MainLoop;
 
 public class MainTitle extends MWindow{
@@ -21,6 +23,8 @@ public class MainTitle extends MWindow{
 	Sprite spriteMegaman;
 	Sprite spriteScore;
 	Sprite spriteStart;
+	Camera mainCamera = new Camera();
+	DataBaseConnector dataBase = new DataBaseConnector();
 	
 	public MainTitle(MainLoop ciclo) {
 		super(ciclo);
@@ -45,6 +49,7 @@ public class MainTitle extends MWindow{
 		spriteStart.setScale(2.0f,2.0f);
 		
 		windowCode = 0;
+		dataBase.getSave();
 		
 	}
 	
@@ -58,7 +63,7 @@ public class MainTitle extends MWindow{
 			
 			if(spriteMegaman.getY()==50)
 			{
-				cicloPrincipal.setWindow(6);
+				cicloPrincipal.setWindow(3);
 			}
 			
 		}
@@ -85,6 +90,7 @@ public class MainTitle extends MWindow{
 		spriteScore.draw(batch);
 		spriteStart.draw(batch);
 		batch.end();
+		mainCamera.paint(batch);
 		
 	}
 

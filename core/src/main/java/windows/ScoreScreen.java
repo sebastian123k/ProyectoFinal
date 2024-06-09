@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import mainPakage.Camera;
 import mainPakage.MainLoop;
 
 public class ScoreScreen extends MWindow {
@@ -16,7 +17,7 @@ public class ScoreScreen extends MWindow {
 	Texture megaman;
 	
 	Sprite spriteTitle;
-	
+	Camera mainCamera = new Camera();
 	public ScoreScreen(MainLoop ciclo) {
 		super(ciclo);
 		
@@ -33,6 +34,7 @@ public class ScoreScreen extends MWindow {
 	public void update() {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
 		{
+			
 			cicloPrincipal.setWindow(0);
 		}
 		
@@ -42,6 +44,7 @@ public class ScoreScreen extends MWindow {
 		batch.begin();
 		spriteTitle.draw(batch);
 		batch.end();
+		mainCamera.paint(batch);
 		
 	}
 

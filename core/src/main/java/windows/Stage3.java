@@ -66,6 +66,24 @@ public class Stage3 extends MWindow {
 		this.addEnemy();
 		this.addSounds();
 		windowCode = 5;
+		cicloPrincipal.setLevel(windowCode);
+		
+	}
+	
+	public Stage3(MainLoop ciclo,int seccion) {
+		super(ciclo);
+		mainCamera = new Camera();
+		font = new MFont(10,10);
+		score = 0;
+		tscore = new Sprite(new Texture("tittle/blueScore.png"));
+		this.addBackground();
+		this.seccion = seccion;
+		this.addPlayer();
+		this.addColitions();
+		this.addEnemy();
+		this.addSounds();
+		windowCode = 5;
+		cicloPrincipal.setLevel(windowCode);
 		
 	}
 	
@@ -122,20 +140,29 @@ public class Stage3 extends MWindow {
 	public void addPlayer()
 	{
 		jugador1 = new Player();
-		jugador1.setPosX(400);
-		jugador1.setPosY(400);
+		
 		jugador1.setColitions(colitions);
 		jugador1.setBullets(bullets);
 		jugador1.setEnemigos(enemigos);
 		mainCamera.setPosY(jugador1.getPosY()+15);
 		mainCamera.setPosX(jugador1.getPosX());
+		if(seccion == 0)
+		{
+			jugador1.setPosX(400);
+			jugador1.setPosY(400);
+		}
+		else
+		{
+			jugador1.setPosX(7198);
+ 			jugador1.setPosY(300);
+		}
 	}
 	
 	public void addEnemy()
 	{
 		enemigos.add(new Batbot(10,800,300,jugador1));
 		enemigos.add(new Armadillo(10,2500,-238,colitions,jugador1,2.0f));
-		enemigos.add(new Armadillo(10,6092,-800,colitions,jugador1,2.0f));
+		enemigos.add(new Armadillo(10,5992,-700,colitions,jugador1,2.0f));
 		enemigos.add(new Armadillo(10,9300,-1400,colitions,jugador1,2.0f));
 		enemigos.add(new Armadillo(10,13664,-2526,colitions,jugador1,6.0f));
 		enemigos.add(new Batbot(10,7000,-816,jugador1));
@@ -253,7 +280,13 @@ public class Stage3 extends MWindow {
 			mainCamera.setPosX(jugador1.getPosX());
 			mainCamera.setPosY(jugador1.getPosY()+15);
  		}
- 		//>20000
+ 		if(jugador1.getPosX()>15634)
+ 		{
+ 			musicaFondo.stop();
+ 			cicloPrincipal.setSeccion(0);
+ 			cicloPrincipal.setScore(score);
+ 			cicloPrincipal.setWindow(6);
+ 		}
  		
  		if(jugador1.getLife() <= 0)
  		{
@@ -425,7 +458,13 @@ public class Stage3 extends MWindow {
 			enemy.draw(batch);
 		}
 	}
+	
+	public int getScore() {
+		return score;
+	}
 
-
+	public void setScore(int score) {
+		this.score = score;
+	}
 
 }

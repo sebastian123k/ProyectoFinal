@@ -13,6 +13,7 @@ import windows.GameOverScreen;
 import windows.IntroStage;
 import windows.MWindow;
 import windows.MainTitle;
+import windows.NewScoreScreen;
 import windows.ScoreScreen;
 import windows.SecondStage;
 import windows.Stage3;
@@ -27,6 +28,9 @@ public class MainLoop extends ApplicationAdapter {
     private ShapeRenderer s1;
     private MWindow ventana;
     private int currentWindow;
+    int level = 1;
+    int seccion =0;
+    int score =0;
     
     @Override
     public void create() {
@@ -71,7 +75,8 @@ public class MainLoop extends ApplicationAdapter {
     		ventana = new MainTitle(this);
     		break;
     	case 1:
-    		ventana = new IntroStage(this);
+    		ventana = new IntroStage(this,seccion);
+    		ventana.setScore(score);
     		break;
     	case 2:
     		ventana = new GameOverScreen(this);
@@ -81,13 +86,19 @@ public class MainLoop extends ApplicationAdapter {
     		ventana = new ScoreScreen(this);
     		break;
     	case 4:
-    		ventana = new SecondStage(this);
+    		ventana = new SecondStage(this,seccion);
+    		ventana.setScore(score);
     		break;	
     	case 5:
-    		ventana = new Stage3(this);
+    		ventana = new Stage3(this,seccion);
+    		ventana.setScore(score);
     		break;
     	case 6:
     		ventana = new BossStage(this);
+    		ventana.setScore(score);
+    		break;
+    	case 7:
+    		ventana = new NewScoreScreen(this);
     		break;
     	
     	}
@@ -108,5 +119,29 @@ public class MainLoop extends ApplicationAdapter {
         batch.dispose();
  
     }
-    
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getSeccion() {
+		return seccion;
+	}
+
+	public void setSeccion(int seccion) {
+		this.seccion = seccion;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
 }

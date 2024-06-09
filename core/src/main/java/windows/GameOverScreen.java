@@ -25,23 +25,23 @@ public class GameOverScreen extends MWindow{
 	public GameOverScreen(MainLoop ciclo) {
 		super(ciclo);
 		
-		title = new Texture("tittle/title1.png");
+		title = new Texture("gameOverScreen/GameOverFont.png");
 		titleX = new Texture("gameOverScreen/gameOver.png");
 		megaman = new Texture("tittle/megaman1.png");
 		spriteTitle = new Sprite(title);
-		spriteTitle.setPosition(200, 300);
-		spriteTitle.setScale(2.0f,2.0f);
+		spriteTitle.setPosition(520, 300);
+		spriteTitle.setScale(6.0f,6.0f);
 		spriteTitleX = new Sprite(titleX);
-		spriteTitleX.setPosition(570, 50);
+		spriteTitleX.setPosition(690, 50);
 		spriteTitleX.setScale(2.0f,2.0f);
 		spriteMegaman = new Sprite(megaman);
 		spriteMegaman.setPosition(50, 150);
 		spriteMegaman.setScale(2.0f,2.0f);
-		spriteScore = new Sprite(new Texture("tittle/blueScore.png"));
-		spriteScore.setPosition(340, 50);
+		spriteScore = new Sprite(new Texture("gameOverScreen/menu.png"));
+		spriteScore.setPosition(440, 50);
 		spriteScore.setScale(2.0f,2.0f);
 		spriteStart = new Sprite(new Texture("gameOverScreen/retry.png"));
-		spriteStart.setPosition(350, 150);
+		spriteStart.setPosition(420, 150);
 		spriteStart.setScale(2.0f,2.0f);
 		
 		windowCode = 2;
@@ -51,20 +51,29 @@ public class GameOverScreen extends MWindow{
 	public void update() {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
 		{
-			cicloPrincipal.setWindow(cicloPrincipal.getCurrentWindow());
+			if(spriteMegaman.getY()==150)
+			{
+				cicloPrincipal.setWindow(cicloPrincipal.getLevel());
+			}
+			
+			if(spriteMegaman.getY()==50)
+			{
+				cicloPrincipal.setWindow(0);
+			}
+			
 		}
 		if((Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) && spriteMegaman.getY()==150)
 		{
 			spriteMegaman.setY(spriteMegaman.getY()- 100);
-			spriteScore.setTexture(new Texture("tittle/Score.png"));
-			spriteStart.setTexture(new Texture("tittle/blueGameStart.png"));
+			spriteScore.setTexture(new Texture("gameOverScreen/menuGold.png"));
+			spriteStart.setTexture(new Texture("gameOverScreen/blueRetry.png"));
 
 		}
 		if((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP)) && spriteMegaman.getY()==50)
 		{	
 			spriteMegaman.setY(spriteMegaman.getY()+ 100);
-			spriteScore.setTexture(new Texture("tittle/blueScore.png"));
-			spriteStart.setTexture(new Texture("tittle/gameStartFont.png"));
+			spriteScore.setTexture(new Texture("gameOverScreen/menu.png"));
+			spriteStart.setTexture(new Texture("gameOverScreen/retry.png"));
 		}
 	}
 	

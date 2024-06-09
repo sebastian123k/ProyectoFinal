@@ -55,10 +55,10 @@ public class IntroStage extends MWindow {
 	Sound musicaFondo;
 	Sound enemigoMuerte;
 	MFont font;
-	int score;
 	private Player jugador1;
     private Camera mainCamera;
-
+    
+    
 	public IntroStage(MainLoop ciclo)
 	{
 		super(ciclo);
@@ -72,6 +72,25 @@ public class IntroStage extends MWindow {
 		this.addEnemy();
 		this.addSounds();
 		windowCode = 1;
+		cicloPrincipal.setLevel(windowCode);
+		
+	}
+	
+	public IntroStage(MainLoop ciclo,int seccion)
+	{
+		super(ciclo);
+		mainCamera = new Camera();
+		font = new MFont(10,10);
+		score = 0;
+		tscore = new Sprite(new Texture("tittle/blueScore.png"));
+		this.addBackground();
+		this.seccion = seccion;
+		this.addPlayer();
+		this.addEnemy();
+		this.addColitions();
+		this.addSounds();
+		windowCode = 1;
+		cicloPrincipal.setLevel(windowCode);
 		
 	}
 	
@@ -124,19 +143,35 @@ public class IntroStage extends MWindow {
 		colitions.add(new Rectangle(10660,200,580,100));
 		colitions.add(new Rectangle(11390,135,900,100));
 		colitions.add(new Rectangle(12440,35,2800,100));
+		jugador1.setEnemigos(enemigos);
 		
 	}
 	
 	public void addPlayer()
 	{
 		jugador1 = new Player();
-		jugador1.setPosX(400);
-		jugador1.setPosY(300);
 		jugador1.setColitions(colitions);
 		jugador1.setBullets(bullets);
-		jugador1.setEnemigos(enemigos);
-		mainCamera.setPosY(jugador1.getPosY()+15);
+		
+		
+		if(seccion == 0)
+		{
+			jugador1.setPosX(500);
+ 			jugador1.setPosY(300);
+		}
+		else
+		{
+			jugador1.setPosX(7198);
+ 			jugador1.setPosY(300);
+ 			
+ 			
+		}
+		
+		mainCamera.unlock();
 		mainCamera.setPosX(jugador1.getPosX());
+		mainCamera.setPosY(jugador1.getPosY()+15);
+		
+		
 	}
 	
 	public void addEnemy()
@@ -149,8 +184,12 @@ public class IntroStage extends MWindow {
 		enemigos.add(new Beebot(4,3700,335));
 		enemigos.add(new Beebot(4,3900,380));
 		enemigos.add(new Beebot(4,4900,400));
-		enemigos.add(new Beecopter(26,5600,330,mainCamera,jugador1,enemigosAux));
-		enemigos.add(new Beecopter(26,6800,250,mainCamera,jugador1,enemigosAux));
+		if(seccion == 0)
+		{
+			enemigos.add(new Beecopter(26,5600,330,mainCamera,jugador1,enemigosAux));
+			enemigos.add(new Beecopter(26,6800,250,mainCamera,jugador1,enemigosAux));
+		}
+	
 		enemigos.add(new Beebot(4,8000,400));
 		enemigos.add(new Beebot(4,8050,300));
 		enemigos.add(new Beebot(4,8250,400));
@@ -244,9 +283,9 @@ public class IntroStage extends MWindow {
 	{
 		if(jugador1.getPosY() < 270)
 		{
-			mainCamera.setPosY(jugador1.getPosY()+15);
+			mainCamera.setPosY(jugador1.getPosY()-20);
 		}
-		if(jugador1.getPosX() >400)
+		if(jugador1.getPosX() >450)
 		{
 			mainCamera.setPosX(jugador1.getPosX());
 		}
@@ -260,12 +299,26 @@ public class IntroStage extends MWindow {
 
  		jugador1.hurts(enemigos);
  		jugador1.update();
- 		//System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
+ 		System.out.println("x" + jugador1.getPosX() + "  y" + jugador1.getPosY());
+ 		
+ 		if(jugador1.getPosX() > 7198)
+ 		{
+ 			seccion = 1;
+ 			cicloPrincipal.setScore(score);
+ 		}
  		
  		if(jugador1.getPosY()<-400)
  		{
- 			jugador1.setPosX(400);
- 			jugador1.setPosY(300);
+ 			if(seccion == 0)
+ 			{
+ 				jugador1.setPosX(400);
+ 	 			jugador1.setPosY(300);
+ 			}
+ 			else
+ 			{
+ 				jugador1.setPosX(7198);
+ 	 			jugador1.setPosY(300);
+ 			}
  			
 			addBackground();
 			jugador1.setLife(jugador1.getLife()-2);
@@ -277,6 +330,8 @@ public class IntroStage extends MWindow {
  		if(jugador1.getPosX()>13500)
  		{
  			musicaFondo.stop();
+ 			cicloPrincipal.setSeccion(0);
+ 			cicloPrincipal.setScore(score);
  			cicloPrincipal.setWindow(4);
  		}
  		
@@ -284,6 +339,7 @@ public class IntroStage extends MWindow {
  		if(jugador1.getLife() <= 0)
  		{
  			musicaFondo.stop();
+ 			cicloPrincipal.setSeccion(seccion);
  			cicloPrincipal.setWindow(2);
  			
  		}
@@ -440,6 +496,18 @@ public class IntroStage extends MWindow {
 			enemy.draw(batch);
 		}
 	}
+
+
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	
 
 
 
